@@ -1,20 +1,82 @@
+export interface FAQ {
+  question: string;
+  answer: string;
+}
+
 export interface Tool {
   id: string;
   name: string;
   slug: string;
   description: string;
+  longDescription?: string;
   category: string;
   icon: string;
   featured?: boolean;
+  howTo?: string;
+  steps?: string[];
+  examples?: { title: string; code: string }[];
+  benefits?: string[];
+  faqs?: FAQ[];
 }
 
-export const categories = [
-  { id: "text", name: "Text Tools", icon: "Type" },
-  { id: "json", name: "JSON Tools", icon: "FileJson" },
-  { id: "coding", name: "Coding Tools", icon: "Code" },
-  { id: "security", name: "Security", icon: "Shield" },
-  { id: "converters", name: "Converters", icon: "RefreshCw" },
-  { id: "generators", name: "Generators", icon: "PlusCircle" },
+export interface Category {
+  id: string;
+  name: string;
+  slug: string;
+  icon: string;
+  description: string;
+  longDescription: string;
+}
+
+export const categories: Category[] = [
+  { 
+    id: "text", 
+    name: "Text Tools", 
+    slug: "text-tools",
+    icon: "Type",
+    description: "Manipulate, format, and analyze text data with ease.",
+    longDescription: "Our Text Tools category provides a comprehensive suite of utilities for developers, writers, and data analysts. From comparing differences between two text blocks with our Text Diff Checker to counting words and characters, these tools are designed to handle all your string manipulation needs. Whether you need to change text case, sort lines, or remove duplicates, our browser-based tools ensure your data stays private and secure while providing instant results."
+  },
+  { 
+    id: "json", 
+    name: "JSON Tools", 
+    slug: "json-tools",
+    icon: "FileJson",
+    description: "Format, validate, and optimize JSON data.",
+    longDescription: "JSON is the backbone of modern web development. Our JSON Tools help you work with this data format more efficiently. Use our JSON Formatter to make minified code readable, or the JSON Validator to catch syntax errors before they break your application. All processing happens client-side, making it the safest way to handle sensitive configuration files or API responses."
+  },
+  { 
+    id: "coding", 
+    name: "Developer Tools", 
+    slug: "developer-tools",
+    icon: "Code",
+    description: "Essential utilities for web developers and engineers.",
+    longDescription: "The Developer Tools category at Ilustrado Labs is a curated collection of utilities that every programmer needs. This includes code minifiers for HTML, CSS, and JavaScript to optimize your website's performance, as well as a Regex Tester to debug complex patterns. We also provide a Markdown Previewer to help you document your projects with ease. These tools are built to integrate seamlessly into your daily development workflow."
+  },
+  { 
+    id: "security", 
+    name: "Security Tools", 
+    slug: "security-tools",
+    icon: "Shield",
+    description: "Generate secure passwords and unique identifiers.",
+    longDescription: "Security is not an afterthought at Ilustrado Labs. Our Security Tools category offers high-entropy generators for passwords and UUIDs. By using standard Web Cryptography APIs, we ensure that the random values generated are cryptographically secure. Since these tools run entirely in your browser, your generated secrets are never transmitted over the network, providing an extra layer of protection for your sensitive credentials."
+  },
+  { 
+    id: "converters", 
+    name: "Encoding & Conversion", 
+    slug: "encoding-tools",
+    icon: "RefreshCw",
+    description: "Convert data between different formats and encodings.",
+    longDescription: "Data often comes in formats that aren't immediately useful. Our Encoding and Conversion tools bridge that gap. Whether you need to encode/decode Base64 strings, handle URL parameters safely, or convert Unix timestamps to human-readable dates, we've got you covered. We also feature a Color Converter for designers and developers to switch between HEX, RGB, and HSL color spaces instantly."
+  },
+  { 
+    id: "generators", 
+    name: "Content Generators", 
+    slug: "generators",
+    icon: "PlusCircle",
+    description: "Generate placeholder text, slugs, and more.",
+    longDescription: "Speed up your design and development process with our Content Generators. Need placeholder text for a mockup? Use our Lorem Ipsum Generator. Want to create SEO-friendly URLs? Our Slug Generator is perfect for the job. These utilities are designed to remove the friction from the creative process, allowing you to focus on building great products."
+  },
 ];
 
 export const tools: Tool[] = [
@@ -31,8 +93,48 @@ export const tools: Tool[] = [
     name: "JSON Formatter",
     slug: "json-formatter",
     description: "Prettify and format your JSON data for better readability.",
+    longDescription: "JSON Formatter is an essential tool for developers working with web APIs and configuration files. It takes minified or messy JSON strings and transforms them into a beautifully indented, human-readable format. This makes debugging and data analysis significantly easier by providing a clear visual structure of the data hierarchy.",
     category: "json",
     icon: "FileJson",
+    howTo: "To use the JSON Formatter, simply paste your minified or unformatted JSON into the input area. The tool will automatically detect the data and apply standard indentation (usually 2 spaces) to make it readable. You can then copy the formatted result back to your project.",
+    steps: [
+      "Copy your minified JSON string from your source code or API response.",
+      "Paste the JSON into the input field on this page.",
+      "The tool will instantly format the JSON with proper indentation and syntax highlighting.",
+      "Review the formatted data for any structural issues.",
+      "Click the 'Copy' button to save the formatted JSON to your clipboard."
+    ],
+    examples: [
+      {
+        title: "Minified JSON",
+        code: '{"name":"John","age":30,"city":"New York"}'
+      },
+      {
+        title: "Formatted JSON",
+        code: '{\n  "name": "John",\n  "age": 30,\n  "city": "New York"\n}'
+      }
+    ],
+    benefits: [
+      "Improves code readability for faster debugging.",
+      "Identifies structural errors in your JSON data.",
+      "Runs entirely in the browser for 100% privacy.",
+      "Supports large JSON files without performance lag.",
+      "Free to use with no registration required."
+    ],
+    faqs: [
+      {
+        question: "Is my JSON data sent to a server?",
+        answer: "No. Our JSON Formatter runs entirely client-side using JavaScript. Your data never leaves your machine."
+      },
+      {
+        question: "Does it support nested JSON objects?",
+        answer: "Yes, it can handle deeply nested objects and arrays, providing clear indentation for each level."
+      },
+      {
+        question: "Can it fix invalid JSON?",
+        answer: "While it can't automatically fix syntax errors, it will highlight where the error is so you can correct it manually."
+      }
+    ]
   },
   {
     id: "json-validator",

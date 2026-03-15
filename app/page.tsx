@@ -1,14 +1,28 @@
-"use client";
-
 import Link from "next/link";
 import { Button } from "@/components/ui/Button";
 import { Card, GlassCard, GradientBorder } from "@/components/ui/Card";
 import { tools, categories } from "@/data/tools";
 import * as Icons from "lucide-react";
-import { ArrowRight, Search, Zap, Shield, Globe } from "lucide-react";
+import { ArrowRight, Zap, Shield, Globe } from "lucide-react";
+import Image from "next/image";
+import { SearchTools } from "@/components/ui/SearchTools";
+import { constructMetadata } from "@/lib/seo";
+import { Metadata } from "next";
+
+export const metadata: Metadata = constructMetadata({
+  title: "Ilustrado Labs - Free Developer Tools & Utilities",
+  description: "High-performance, browser-based developer tools. JSON formatter, Regex tester, Base64 encoder, and more. 100% private and secure.",
+  canonical: "/",
+});
 
 export default function HomePage() {
   const featuredTools = tools.slice(0, 6);
+  
+  const blogPosts = [
+    { id: 1, title: "10 Essential Developer Tools for 2026", slug: "essential-tools-2026", date: "Mar 15, 2026", excerpt: "Discover the must-have tools that every modern developer should have in their arsenal." },
+    { id: 2, title: "Mastering JSON: Tips and Tricks", slug: "mastering-json", date: "Mar 12, 2026", excerpt: "Learn how to handle complex JSON structures and optimize your data processing workflow." },
+    { id: 3, title: "The Importance of Client-Side Processing", slug: "client-side-processing", date: "Mar 10, 2026", excerpt: "Why processing data in the browser is better for privacy, speed, and security." },
+  ];
 
   return (
     <div className="flex flex-col gap-20 pb-20">
@@ -29,19 +43,16 @@ export default function HomePage() {
           </p>
           
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Button size="lg" className="w-full sm:w-auto">
-              <Link href="/tools" className="flex items-center gap-2">
+            <Link href="/tools">
+              <Button size="lg" className="w-full sm:w-auto flex items-center gap-2">
                 Explore All Tools <ArrowRight size={18} />
-              </Link>
-            </Button>
-            <div className="relative w-full sm:w-80">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-muted" size={18} />
-              <input 
-                type="text" 
-                placeholder="Search 20+ tools..." 
-                className="w-full pl-12 pr-4 py-3.5 bg-background border border-border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/50 shadow-sm"
-              />
-            </div>
+              </Button>
+            </Link>
+            <SearchTools 
+              placeholder="Search 20+ tools..." 
+              className="w-full sm:w-80"
+              inputClassName="py-3.5 pl-12 pr-4 rounded-xl shadow-sm"
+            />
           </div>
         </div>
       </section>
@@ -88,9 +99,9 @@ export default function HomePage() {
             const Icon = (Icons as any)[tool.icon] || Icons.Code;
             return (
               <Link key={tool.id} href={`/tools/${tool.slug}`}>
-                <GradientBorder className="h-full hover:shadow-primary/10 transition-all">
+                <GradientBorder className="h-full hover:shadow-primary/10 transition-all group">
                   <div className="flex items-start gap-4">
-                    <div className="p-3 rounded-lg bg-primary/10 text-primary">
+                    <div className="p-3 rounded-lg bg-primary/10 text-primary group-hover:bg-primary group-hover:text-white transition-colors">
                       <Icon size={24} />
                     </div>
                     <div>
@@ -113,7 +124,7 @@ export default function HomePage() {
             {categories.map((cat) => {
               const Icon = (Icons as any)[cat.icon] || Icons.Folder;
               return (
-                <Link key={cat.id} href={`/tools?category=${cat.id}`}>
+                <Link key={cat.id} href={`/tools/${cat.slug}`}>
                   <GlassCard className="flex flex-col items-center justify-center gap-4 p-6 h-full hover:bg-primary/5 hover:border-primary/30 transition-all group">
                     <div className="w-16 h-16 rounded-2xl bg-muted/10 flex items-center justify-center group-hover:bg-primary/10 transition-colors">
                       <Icon size={32} className="text-muted group-hover:text-primary transition-colors" />
@@ -140,22 +151,24 @@ export default function HomePage() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {[1, 2, 3].map((i) => (
-            <Link key={i} href={`/blog/post-${i}`}>
-              <Card className="p-0 overflow-hidden group">
+          {blogPosts.map((post) => (
+            <Link key={post.id} href={`/blog/${post.slug}`}>
+              <Card className="p-0 overflow-hidden group h-full">
                 <div className="aspect-video bg-muted/20 relative">
-                  <img 
-                    src={`https://picsum.photos/seed/blog${i}/800/450`} 
-                    alt="Blog post" 
-                    className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500"
+                  <Image 
+                    src={`https://picsum.photos/seed/${post.slug}/800/450`} 
+                    alt={post.title} 
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-500"
+                    referrerPolicy="no-referrer"
                   />
                 </div>
                 <div className="p-6">
                   <div className="text-xs text-primary font-semibold uppercase tracking-wider mb-2">Development</div>
-                  <h3 className="text-xl font-bold mb-3 group-hover:text-primary transition-colors">How to optimize your JSON data for production</h3>
-                  <p className="text-sm text-muted line-clamp-2 mb-4">Learn the best practices for handling large JSON files and improving your application performance.</p>
+                  <h3 className="text-xl font-bold mb-3 group-hover:text-primary transition-colors">{post.title}</h3>
+                  <p className="text-sm text-muted line-clamp-2 mb-4">{post.excerpt}</p>
                   <div className="flex items-center gap-2 text-xs text-muted">
-                    <span>Mar 15, 2026</span>
+                    <span>{post.date}</span>
                     <span>•</span>
                     <span>5 min read</span>
                   </div>
@@ -173,9 +186,11 @@ export default function HomePage() {
           <p className="text-lg text-muted max-w-xl mx-auto mb-10">
             Join thousands of developers using Ilustrado Labs every day to build better software faster.
           </p>
-          <Button size="lg">
-            <Link href="/tools">Get Started for Free</Link>
-          </Button>
+          <Link href="/tools">
+            <Button size="lg">
+              Get Started for Free
+            </Button>
+          </Link>
         </GradientBorder>
       </section>
     </div>

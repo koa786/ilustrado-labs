@@ -1,0 +1,66 @@
+import { Metadata } from "next";
+
+export const siteConfig = {
+  name: "Ilustrado Labs",
+  description: "Free, fast, and secure browser-based developer tools. No data ever leaves your machine.",
+  url: "https://ilustradolabs.com", // Replace with actual domain
+  ogImage: "https://ilustradolabs.com/og-image.png",
+  links: {
+    twitter: "https://twitter.com/ilustradolabs",
+    github: "https://github.com/ilustradolabs",
+  },
+};
+
+export function constructMetadata({
+  title = siteConfig.name,
+  description = siteConfig.description,
+  image = siteConfig.ogImage,
+  icons = "/favicon.ico",
+  noIndex = false,
+  canonical,
+}: {
+  title?: string;
+  description?: string;
+  image?: string;
+  icons?: string;
+  noIndex?: boolean;
+  canonical?: string;
+} = {}): Metadata {
+  return {
+    title: {
+      default: title,
+      template: `%s | ${siteConfig.name}`,
+    },
+    description,
+    openGraph: {
+      title,
+      description,
+      images: [
+        {
+          url: image,
+        },
+      ],
+      url: siteConfig.url,
+      siteName: siteConfig.name,
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [image],
+      creator: "@ilustradolabs",
+    },
+    icons,
+    metadataBase: new URL(siteConfig.url),
+    alternates: {
+      canonical: canonical || siteConfig.url,
+    },
+    ...(noIndex && {
+      robots: {
+        index: false,
+        follow: false,
+      },
+    }),
+  };
+}

@@ -1,10 +1,88 @@
 import { Container } from "@/components/layout/Container";
 import { ArrowLeft, Clock, User, Share2 } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 import { Button } from "@/components/ui/Button";
+import { constructMetadata } from "@/lib/seo";
+import { Metadata } from "next";
+import { Schema, generateBlogPostingSchema } from "@/components/ui/Schema";
+import { notFound } from "next/navigation";
+
+const blogPosts = [
+  { 
+    id: 1, 
+    title: "10 Essential Developer Tools for 2026", 
+    slug: "essential-tools-2026", 
+    date: "2026-03-15T00:00:00Z", 
+    excerpt: "Discover the must-have tools that every modern developer should have in their arsenal.",
+    author: "Ilustrado Team",
+    category: "Development",
+    readTime: "8 min read"
+  },
+  { 
+    id: 2, 
+    title: "Mastering JSON: Tips and Tricks", 
+    slug: "mastering-json", 
+    date: "2026-03-12T00:00:00Z", 
+    excerpt: "Learn how to handle complex JSON structures and optimize your data processing workflow.",
+    author: "Ilustrado Team",
+    category: "Tutorials",
+    readTime: "10 min read"
+  },
+  { 
+    id: 3, 
+    title: "The Importance of Client-Side Processing", 
+    slug: "client-side-processing", 
+    date: "2026-03-10T00:00:00Z", 
+    excerpt: "Why processing data in the browser is better for privacy, speed, and security.",
+    author: "Ilustrado Team",
+    category: "Security",
+    readTime: "6 min read"
+  },
+  { 
+    id: 4, 
+    title: "Understanding Regular Expressions", 
+    slug: "understanding-regex", 
+    date: "2026-03-08T00:00:00Z", 
+    excerpt: "A comprehensive guide to mastering regex for everyday development tasks.",
+    author: "Ilustrado Team",
+    category: "Tutorials",
+    readTime: "12 min read"
+  },
+  { 
+    id: 5, 
+    title: "Secure Password Management", 
+    slug: "secure-passwords", 
+    date: "2026-03-05T00:00:00Z", 
+    excerpt: "How to generate and manage secure passwords in the age of cyber threats.",
+    author: "Ilustrado Team",
+    category: "Security",
+    readTime: "7 min read"
+  },
+];
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params;
+  const post = blogPosts.find((p) => p.slug === slug);
+
+  if (!post) return constructMetadata();
+
+  return constructMetadata({
+    title: post.title,
+    description: post.excerpt,
+    canonical: `/blog/${post.slug}`,
+    type: "article",
+  });
+}
 
 export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
+  const post = blogPosts.find((p) => p.slug === slug);
+
+  if (!post) {
+    notFound();
+  }
+
   return (
     <div className="py-20">
       <Container>
@@ -15,21 +93,28 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 
           <header className="mb-12">
             <div className="flex items-center gap-4 text-sm text-muted mb-6">
-              <span className="flex items-center gap-1"><User size={14} /> Ilustrado Team</span>
+              <span className="flex items-center gap-1"><User size={14} /> {post.author}</span>
               <span>•</span>
-              <span className="flex items-center gap-1"><Clock size={14} /> 5 min read</span>
+              <span className="flex items-center gap-1"><Clock size={14} /> {post.readTime}</span>
               <span>•</span>
-              <span className="text-primary font-semibold">Development</span>
+              <span className="text-primary font-semibold">{post.category}</span>
             </div>
-            <h1 className="text-4xl md:text-6xl font-bold mb-8 leading-tight">Mastering the Art of Developer Productivity</h1>
-            <div className="aspect-video bg-muted/20 rounded-2xl overflow-hidden mb-12">
-              <img src={`https://picsum.photos/seed/${slug}/1200/675`} alt="Blog post hero" className="object-cover w-full h-full" />
+            <h1 className="text-4xl md:text-6xl font-bold mb-8 leading-tight">{post.title}</h1>
+            <div className="aspect-video bg-muted/20 rounded-2xl overflow-hidden mb-12 relative">
+              <Image 
+                src={`https://picsum.photos/seed/${slug}/1200/675`} 
+                alt={post.title} 
+                fill
+                className="object-cover"
+                priority
+                referrerPolicy="no-referrer"
+              />
             </div>
           </header>
 
           <article className="prose prose-invert max-w-none prose-lg">
             <p className="lead text-xl text-muted mb-8">
-              In today&apos;s fast-paced development world, productivity isn&apos;t just about typing faster—it&apos;s about working smarter. 
+              {post.excerpt} In today&apos;s fast-paced development world, productivity isn&apos;t just about typing faster—it&apos;s about working smarter. 
               Using the right tools at the right time can save hours of frustration.
             </p>
             
@@ -43,9 +128,11 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
             <div className="my-12 p-8 bg-primary/5 border border-primary/20 rounded-2xl text-center">
               <h3 className="text-2xl font-bold mb-4">Try our JSON Formatter</h3>
               <p className="mb-6">Clean up your messy JSON data in seconds with our free tool.</p>
-              <Button size="lg">
-                <Link href="/tools/json-formatter">Open JSON Formatter</Link>
-              </Button>
+              <Link href="/tools/json-formatter">
+                <Button size="lg">
+                  Open JSON Formatter
+                </Button>
+              </Link>
             </div>
 
             <p>
@@ -67,13 +154,25 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
               We are constantly adding new tools to our platform. Our goal is to become the go-to resource for every developer&apos;s daily tasks. 
               From text manipulation to network utilities, Ilustrado Labs is building the future of developer productivity.
             </p>
+
+            <h2 className="text-3xl font-bold mt-12 mb-6">Why Client-Side Matters</h2>
+            <p>
+              When you use a tool that processes data on a server, you are essentially trusting that server with your information. 
+              Even if the connection is encrypted, the data still exists on a machine you don&apos;t control. 
+              Client-side tools eliminate this risk entirely. Your data is processed in your browser&apos;s memory and is gone as soon as you close the tab.
+            </p>
+            
+            <p>
+              This architecture also leads to better performance. There are no network delays, no server load issues, and no waiting for a response. 
+              The tool is as fast as your computer, which in 2026, is very fast indeed.
+            </p>
           </article>
 
           <div className="mt-20 pt-12 border-t border-border flex items-center justify-between">
             <div className="flex items-center gap-4">
               <div className="w-12 h-12 rounded-full bg-muted/20" />
               <div>
-                <div className="font-bold">Ilustrado Team</div>
+                <div className="font-bold">{post.author}</div>
                 <div className="text-sm text-muted">Building tools for the next generation of developers.</div>
               </div>
             </div>
@@ -83,6 +182,16 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
           </div>
         </div>
       </Container>
+      
+      {/* Structured Data */}
+      <Schema data={generateBlogPostingSchema({
+        title: post.title,
+        description: post.excerpt,
+        datePublished: post.date,
+        authorName: post.author,
+        url: `https://ilustradolabs.com/blog/${post.slug}`,
+        image: `https://picsum.photos/seed/${slug}/1200/675`
+      })} />
     </div>
   );
 }
