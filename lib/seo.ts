@@ -18,6 +18,7 @@ export function constructMetadata({
   icons = "/favicon.ico",
   noIndex = false,
   canonical,
+  type = "website",
 }: {
   title?: string;
   description?: string;
@@ -25,6 +26,7 @@ export function constructMetadata({
   icons?: string;
   noIndex?: boolean;
   canonical?: string;
+  type?: string;
 } = {}): Metadata {
   return {
     title: {
@@ -42,7 +44,7 @@ export function constructMetadata({
       ],
       url: siteConfig.url,
       siteName: siteConfig.name,
-      type: "website",
+      type: type as any,
     },
     twitter: {
       card: "summary_large_image",
