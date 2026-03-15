@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import { Search as SearchIcon, X, Command } from "lucide-react";
 import { tools } from "@/data/tools";
 import Link from "next/link";
@@ -16,23 +16,19 @@ interface SearchToolsProps {
 export function SearchTools({ placeholder = "Search tools...", className, inputClassName }: SearchToolsProps) {
   const [query, setQuery] = useState("");
   const [isOpen, setIsOpen] = useState(false);
-  const [results, setResults] = useState(tools.slice(0, 5));
   const containerRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
 
-  useEffect(() => {
+  const results = useMemo(() => {
     if (query.trim() === "") {
-      setResults(tools.slice(0, 5));
-      return;
+      return tools.slice(0, 5);
     }
 
-    const filtered = tools.filter(
+    return tools.filter(
       (tool) =>
         tool.name.toLowerCase().includes(query.toLowerCase()) ||
         tool.description.toLowerCase().includes(query.toLowerCase())
     ).slice(0, 8);
-
-    setResults(filtered);
   }, [query]);
 
   useEffect(() => {

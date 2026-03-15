@@ -65,3 +65,34 @@ export function generateBreadcrumbSchema(items: { label: string; href: string }[
     ]
   };
 }
+
+export function generateBlogPostingSchema(post: {
+  title: string;
+  description: string;
+  datePublished: string;
+  authorName: string;
+  url: string;
+  image: string;
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": post.title,
+    "description": post.description,
+    "image": post.image,
+    "author": {
+      "@type": "Organization",
+      "name": post.authorName
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Ilustrado Labs",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://ilustradolabs.com/logo.png"
+      }
+    },
+    "datePublished": post.datePublished,
+    "url": post.url
+  };
+}
