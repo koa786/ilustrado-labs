@@ -1,0 +1,181 @@
+export interface Tool {
+  id: string;
+  name: string;
+  slug: string;
+  description: string;
+  category: string;
+  icon: string;
+  featured?: boolean;
+}
+
+export const categories = [
+  { id: "text", name: "Text Tools", icon: "Type" },
+  { id: "json", name: "JSON Tools", icon: "FileJson" },
+  { id: "coding", name: "Coding Tools", icon: "Code" },
+  { id: "security", name: "Security", icon: "Shield" },
+  { id: "converters", name: "Converters", icon: "RefreshCw" },
+  { id: "generators", name: "Generators", icon: "PlusCircle" },
+];
+
+export const tools: Tool[] = [
+  {
+    id: "text-diff",
+    name: "Text Diff Checker",
+    slug: "text-diff-checker",
+    description: "Compare two pieces of text and find the differences.",
+    category: "text",
+    icon: "Diff",
+  },
+  {
+    id: "json-formatter",
+    name: "JSON Formatter",
+    slug: "json-formatter",
+    description: "Prettify and format your JSON data for better readability.",
+    category: "json",
+    icon: "FileJson",
+  },
+  {
+    id: "json-validator",
+    name: "JSON Validator",
+    slug: "json-validator",
+    description: "Check if your JSON is valid and find syntax errors.",
+    category: "json",
+    icon: "CheckCircle",
+  },
+  {
+    id: "base64",
+    name: "Base64 Encoder/Decoder",
+    slug: "base64-encoder-decoder",
+    description: "Encode or decode text to and from Base64 format.",
+    category: "converters",
+    icon: "Hash",
+  },
+  {
+    id: "url-codec",
+    name: "URL Encoder/Decoder",
+    slug: "url-encoder-decoder",
+    description: "Safely encode or decode URLs for web use.",
+    category: "converters",
+    icon: "Link",
+  },
+  {
+    id: "word-counter",
+    name: "Word Counter",
+    slug: "word-counter",
+    description: "Count words, characters, and lines in your text.",
+    category: "text",
+    icon: "Type",
+  },
+  {
+    id: "case-converter",
+    name: "Case Converter",
+    slug: "case-converter",
+    description: "Convert text between UPPERCASE, lowercase, camelCase, and more.",
+    category: "text",
+    icon: "CaseUpper",
+  },
+  {
+    id: "password-gen",
+    name: "Password Generator",
+    slug: "password-generator",
+    description: "Generate secure, random passwords with custom settings.",
+    category: "generators",
+    icon: "Lock",
+  },
+  {
+    id: "uuid-gen",
+    name: "UUID Generator",
+    slug: "uuid-generator",
+    description: "Generate unique v4 UUIDs instantly.",
+    category: "generators",
+    icon: "Fingerprint",
+  },
+  {
+    id: "timestamp",
+    name: "Timestamp Converter",
+    slug: "timestamp-converter",
+    description: "Convert Unix timestamps to human-readable dates and vice versa.",
+    category: "converters",
+    icon: "Clock",
+  },
+  {
+    id: "markdown",
+    name: "Markdown Previewer",
+    slug: "markdown-previewer",
+    description: "Write Markdown and see the rendered HTML in real-time.",
+    category: "coding",
+    icon: "FileText",
+  },
+  {
+    id: "html-minify",
+    name: "HTML Minifier",
+    slug: "html-minifier",
+    description: "Compress your HTML code by removing unnecessary whitespace.",
+    category: "coding",
+    icon: "Code",
+  },
+  {
+    id: "css-minify",
+    name: "CSS Minifier",
+    slug: "css-minifier",
+    description: "Minify your CSS files for faster load times.",
+    category: "coding",
+    icon: "Palette",
+  },
+  {
+    id: "js-minify",
+    name: "JS Minifier",
+    slug: "js-minifier",
+    description: "Minify JavaScript code to reduce file size.",
+    category: "coding",
+    icon: "FileCode",
+  },
+  {
+    id: "regex-tester",
+    name: "Regex Tester",
+    slug: "regex-tester",
+    description: "Test your regular expressions against sample text.",
+    category: "coding",
+    icon: "Search",
+  },
+  {
+    id: "color-conv",
+    name: "Color Converter",
+    slug: "color-converter",
+    description: "Convert colors between HEX, RGB, and HSL formats.",
+    category: "converters",
+    icon: "Palette",
+  },
+  {
+    id: "slug-gen",
+    name: "Slug Generator",
+    slug: "slug-generator",
+    description: "Convert any string into a URL-friendly slug.",
+    category: "generators",
+    icon: "Link2",
+  },
+  {
+    id: "text-sorter",
+    name: "Text Sorter",
+    slug: "text-sorter",
+    description: "Sort lines of text alphabetically or numerically.",
+    category: "text",
+    icon: "SortAsc",
+  },
+  {
+    id: "deduplicator",
+    name: "Line Deduplicator",
+    slug: "line-deduplicator",
+    description: "Remove duplicate lines from your text automatically.",
+    category: "text",
+    icon: "CopyMinus",
+  },
+  {
+    id: "lorem-ipsum",
+    name: "Lorem Ipsum Generator",
+    slug: "lorem-ipsum-generator",
+    description: "Generate placeholder text for your designs.",
+    category: "generators",
+    icon: "FileText",
+  },
+];
