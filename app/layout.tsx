@@ -1,4 +1,4 @@
-import { GoogleAnalytics } from "@next/third-parties/google";
+import Script from "next/script";
 import { ThemeProvider } from "@/components/layout/ThemeProvider";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
@@ -28,8 +28,21 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <Footer />
           </div>
         </ThemeProvider>
-        <GoogleAnalytics gaId="G-FTNLFLNKDN" />
-      </body>
+          <Script
+            src="https://www.googletagmanager.com/gtag/js?id=G-FTNLFLNKDN"
+            strategy="afterInteractive"
+          />
+
+          <Script id="google-analytics" strategy="afterInteractive">
+            {`
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+
+              gtag('config', 'G-FTNLFLNKDN');
+            `}
+          </Script>     
+ </body>
     </html>
   );
 }
