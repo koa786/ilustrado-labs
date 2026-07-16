@@ -1,6 +1,11 @@
+"use client";
+
 import Link from "next/link";
+import { useCookieConsent } from "@/hooks/useCookieConsent";
 
 export function Footer() {
+  const { openPreferencesModal } = useCookieConsent();
+
   return (
     <footer className="border-t border-border/40 bg-muted/5 py-12">
       <div className="container mx-auto px-4">
@@ -38,6 +43,14 @@ export function Footer() {
             <ul className="space-y-2 text-sm text-muted">
               <li><Link href="/privacy-policy" className="hover:text-primary transition-colors">Privacy Policy</Link></li>
               <li><Link href="/terms" className="hover:text-primary transition-colors">Terms of Service</Link></li>
+              <li>
+                <button 
+                  onClick={openPreferencesModal} 
+                  className="hover:text-primary transition-colors cursor-pointer text-left focus:outline-none focus:underline"
+                >
+                  Cookie Preferences
+                </button>
+              </li>
             </ul>
           </div>
         </div>
