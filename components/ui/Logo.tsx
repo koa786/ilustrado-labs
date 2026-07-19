@@ -14,31 +14,20 @@ interface LogoProps {
 
 export function Logo({
   className,
-  width = 172,
-  height = 44,
+  width = 220,
+  height = 46,
   priority = true,
   showLink = true,
 }: LogoProps) {
   const logoContent = (
     <div className={cn("relative flex items-center justify-center", className)}>
-      {/* Light Mode Logo (Dark Text) - Visible in light mode, hidden in dark mode */}
-      <Image
-        src="/logo-light.png"
-        alt="IlustradoLabs"
-        width={width}
-        height={height}
-        priority={priority}
-        className="dark:hidden w-auto h-[34px] md:h-[42px] object-contain"
-        referrerPolicy="no-referrer"
-      />
-      {/* Dark Mode Logo (White Text) - Hidden in light mode, visible in dark mode */}
       <Image
         src="/logo-dark.png"
         alt="IlustradoLabs"
         width={width}
         height={height}
         priority={priority}
-        className="hidden dark:block w-auto h-[34px] md:h-[42px] object-contain"
+        className="w-auto h-[34px] md:h-[42px] object-contain"
         referrerPolicy="no-referrer"
       />
     </div>

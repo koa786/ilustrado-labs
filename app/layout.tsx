@@ -17,9 +17,9 @@ export const metadata = {
   },
   description: "20+ free browser-based developer tools including JSON formatters, diff checkers, generators, and more.",
   icons: {
-    icon: "/logo-light.png",
-    shortcut: "/logo-light.png",
-    apple: "/logo-light.png",
+    icon: "/logo-dark.png",
+    shortcut: "/logo-dark.png",
+    apple: "/logo-dark.png",
   },
 };
 
