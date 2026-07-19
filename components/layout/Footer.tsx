@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { Logo } from "@/components/ui/Logo";
 import { useCookieConsent } from "@/hooks/useCookieConsent";
 
 export function Footer() {
@@ -11,9 +12,7 @@ export function Footer() {
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="col-span-1 md:col-span-1">
-            <Link href="/" className="text-xl font-bold gradient-text mb-4 block">
-              Ilustrado Labs
-            </Link>
+            <Logo className="mb-4 !justify-start" />
             <p className="text-sm text-muted leading-relaxed">
               The ultimate developer tools platform. 20+ browser-based utilities to speed up your workflow.
             </p>

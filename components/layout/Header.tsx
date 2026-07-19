@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { Logo } from "@/components/ui/Logo";
 import { ThemeToggle } from "./ThemeToggle";
 import { Search, Menu, X } from "lucide-react";
 import { useState } from "react";
@@ -15,9 +16,7 @@ export function Header() {
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/80 backdrop-blur-md">
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
         <div className="flex items-center gap-8">
-          <Link href="/" className="flex items-center gap-2">
-            <span className="text-2xl font-bold gradient-text">Ilustrado Labs</span>
-          </Link>
+          <Logo />
 
           <nav className="hidden md:flex items-center gap-6">
             <Link href="/tools" className="text-sm font-medium text-muted hover:text-foreground transition-colors">

@@ -12,10 +12,15 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
   title: {
-    default: "Ilustrado Labs | Developer Tools Platform",
-    template: "%s | Ilustrado Labs",
+    default: "IlustradoLabs | Developer Tools Platform",
+    template: "%s | IlustradoLabs",
   },
   description: "20+ free browser-based developer tools including JSON formatters, diff checkers, generators, and more.",
+  icons: {
+    icon: "/logo-light.png",
+    shortcut: "/logo-light.png",
+    apple: "/logo-light.png",
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

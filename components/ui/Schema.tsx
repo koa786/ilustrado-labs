@@ -89,7 +89,7 @@ export function generateBlogPostingSchema(post: {
       "name": "Ilustrado Labs",
       "logo": {
         "@type": "ImageObject",
-        "url": "https://ilustradolabs.com/logo.png"
+        "url": "https://ilustradolabs.com/logo-light.png"
       }
     },
     "datePublished": post.datePublished,
