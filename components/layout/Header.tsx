@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { Logo } from "@/components/ui/Logo";
-import { ThemeToggle } from "./ThemeToggle";
 import { Search, Menu, X } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
@@ -39,7 +38,6 @@ export function Header() {
               inputClassName="py-1.5 pl-10 pr-4 rounded-full text-sm"
             />
           </div>
-          <ThemeToggle />
           
           <button 
             className="md:hidden p-2 text-muted hover:text-foreground"

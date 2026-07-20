@@ -26,6 +26,31 @@ export const metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  var originalFetch = window.fetch;
+                  Object.defineProperty(window, 'fetch', {
+                    configurable: true,
+                    enumerable: true,
+                    get: function() {
+                      return originalFetch;
+                    },
+                    set: function(val) {
+                      originalFetch = val;
+                    }
+                  });
+                } catch (e) {
+                  console.error('Fetch safeguard failed:', e);
+                }
+              })();
+            `,
+          }}
+        />
+      </head>
       <body className={inter.className} suppressHydrationWarning>
         <CookieProvider>
           <ThemeProvider>
