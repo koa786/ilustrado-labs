@@ -26,34 +26,10 @@ export const metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <head>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              (function() {
-                try {
-                  var originalFetch = window.fetch;
-                  Object.defineProperty(window, 'fetch', {
-                    configurable: true,
-                    enumerable: true,
-                    get: function() {
-                      return originalFetch;
-                    },
-                    set: function(val) {
-                      originalFetch = val;
-                    }
-                  });
-                } catch (e) {
-                  console.error('Fetch safeguard failed:', e);
-                }
-              })();
-            `,
-          }}
-        />
-      </head>
+      <head />
       <body className={inter.className} suppressHydrationWarning>
-        <CookieProvider>
-          <ThemeProvider>
+        <ThemeProvider>
+          <CookieProvider>
             <div className="flex flex-col min-h-screen">
               <Header />
               <main className="flex-grow">
@@ -61,15 +37,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               </main>
               <Footer />
             </div>
-            
-            {/* Cookie Consent UI Elements */}
             <CookieConsent />
             <CookiePreferencesModal />
-            
-            {/* Conditionally Load Analytics / Third-party scripts based on user consent */}
             <ConsentScriptLoader />
-          </ThemeProvider>
-        </CookieProvider>
+          </CookieProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

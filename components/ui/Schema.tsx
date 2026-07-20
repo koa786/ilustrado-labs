@@ -1,13 +1,10 @@
-import Script from "next/script";
-
 interface SchemaProps {
   data: any;
 }
 
 export function Schema({ data }: SchemaProps) {
   return (
-    <Script
-      id="structured-data"
+    <script
       type="application/ld+json"
       dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
     />
