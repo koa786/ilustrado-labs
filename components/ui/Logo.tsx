@@ -3,7 +3,6 @@
 import Link from "next/link";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
-import logoDark from "@/src/assets/images/logo-dark.png";
 
 interface LogoProps {
   className?: string;
@@ -17,15 +16,15 @@ interface LogoProps {
 export function Logo({
   className,
   imageClassName,
-  width,
-  height,
+  width = 220,
+  height = 50,
   priority = true,
   showLink = true,
 }: LogoProps) {
   const logoContent = (
     <div className={cn("relative flex items-center justify-center", className)}>
       <Image
-        src={logoDark}
+        src="/logo-dark.png"
         alt="IlustradoLabs"
         width={width}
         height={height}
