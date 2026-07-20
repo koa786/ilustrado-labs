@@ -12,7 +12,7 @@ export function Footer() {
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="col-span-1 md:col-span-1">
-            <Logo className="mb-4 !justify-start" />
+            <Logo className="mb-4 !justify-start" imageClassName="h-[44px] sm:h-[52px] md:h-[56px]" />
             <p className="text-sm text-muted leading-relaxed">
               The ultimate developer tools platform. 20+ browser-based utilities to speed up your workflow.
             </p>

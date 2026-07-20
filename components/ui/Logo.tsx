@@ -7,6 +7,7 @@ import logoDark from "@/src/assets/images/logo-dark.png";
 
 interface LogoProps {
   className?: string;
+  imageClassName?: string;
   width?: number;
   height?: number;
   priority?: boolean;
@@ -15,8 +16,9 @@ interface LogoProps {
 
 export function Logo({
   className,
-  width = 220,
-  height = 46,
+  imageClassName,
+  width,
+  height,
   priority = true,
   showLink = true,
 }: LogoProps) {
@@ -28,7 +30,7 @@ export function Logo({
         width={width}
         height={height}
         priority={priority}
-        className="w-auto h-[34px] md:h-[42px] object-contain"
+        className={cn("w-auto h-[38px] sm:h-[44px] md:h-[48px] object-contain transition-all duration-200", imageClassName)}
         referrerPolicy="no-referrer"
       />
     </div>
