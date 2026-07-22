@@ -1,0 +1,38 @@
+---
+title: "Understanding Regular Expressions: A Practical Guide"
+description: "A comprehensive guide to mastering regex for everyday text matching and string manipulation tasks."
+date: "2026-03-08"
+author: "Ilustrado Team"
+category: "Tutorials"
+tags:
+  - Regex
+  - JavaScript
+  - String Manipulation
+image: "https://picsum.photos/seed/understanding-regex/1200/675"
+featured: false
+slug: "understanding-regex"
+---
+
+Regular expressions (regex) are pattern-matching strings used to search, extract, and replace text patterns across programming languages.
+
+## Essential Regex Patterns
+
+<Table
+  headers={["Pattern", "Description", "Example Match"]}
+  rows={[
+    ["\\d+", "One or more digits", "1234"],
+    ["[a-zA-Z]+", "One or more letters", "Hello"],
+    ["^\\w+@[a-zA-Z_]+?\\.[a-zA-Z]{2,3}$", "Basic Email Match", "user@example.com"],
+    ["https?://[^\\s]+", "URL Pattern", "https://ilustradolabs.com"]
+  ]}
+/>
+
+### Flags to Remember
+
+* `g` - Global match (find all occurrences)
+* `i` - Case-insensitive matching
+* `m` - Multi-line matching
+
+<Tip>
+Use Ilustrado Labs' [Regex Tester](/tools/regex-tester) to test patterns interactively with real-time highlight matches and capture group extraction.
+</Tip>

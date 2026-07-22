@@ -1,6 +1,6 @@
 import { MetadataRoute } from "next";
 import { tools, categories } from "@/data/tools";
-import { blogPosts } from "@/data/blog";
+import { getAllPosts } from "@/lib/mdx";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = "https://ilustradolabs.com";
@@ -21,10 +21,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.7,
   }));
 
-  // Dynamic blog post pages
-  const blogUrls = blogPosts.map((post) => ({
+  // Dynamic MDX blog post pages
+  const posts = getAllPosts();
+  const blogUrls = posts.map((post) => ({
     url: `${baseUrl}/blog/${post.slug}`,
-    lastModified: new Date(post.date),
+    lastModified: new Date(post.frontmatter.date),
     changeFrequency: "monthly" as const,
     priority: 0.6,
   }));

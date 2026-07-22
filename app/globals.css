@@ -77,3 +77,14 @@
 .gradient-border-content {
   @apply bg-background rounded-[calc(0.75rem-1px)];
 }
+
+/* Syntax Highlighting (Highlight.js Atom One Dark Style) */
+.hljs-keyword, .hljs-selector-tag, .hljs-subst { color: #c678dd; font-weight: 600; }
+.hljs-string, .hljs-title, .hljs-section, .hljs-attribute, .hljs-literal, .hljs-template-tag, .hljs-template-variable, .hljs-type, .hljs-addition { color: #98c379; }
+.hljs-comment, .hljs-quote, .hljs-deletion, .hljs-meta { color: #5c6370; font-style: italic; }
+.hljs-number, .hljs-regexp, .hljs-link { color: #d19a66; }
+.hljs-variable, .hljs-tag, .hljs-name, .hljs-selector-id, .hljs-selector-class { color: #e06c75; }
+.hljs-attr, .hljs-attribute { color: #d19a66; }
+.hljs-[#00e5ff] { color: #00e5ff; }
+.hljs-function { color: #61afef; }
+

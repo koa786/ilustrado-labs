@@ -67,6 +67,7 @@ export function generateBlogPostingSchema(post: {
   title: string;
   description: string;
   datePublished: string;
+  dateModified?: string;
   authorName: string;
   url: string;
   image: string;
@@ -76,20 +77,27 @@ export function generateBlogPostingSchema(post: {
     "@type": "BlogPosting",
     "headline": post.title,
     "description": post.description,
-    "image": post.image,
+    "image": [post.image],
     "author": {
-      "@type": "Organization",
-      "name": post.authorName
+      "@type": "Person",
+      "name": post.authorName,
+      "url": "https://ilustradolabs.com"
     },
     "publisher": {
       "@type": "Organization",
       "name": "Ilustrado Labs",
+      "url": "https://ilustradolabs.com",
       "logo": {
         "@type": "ImageObject",
         "url": "https://ilustradolabs.com/logo-dark.png"
       }
     },
     "datePublished": post.datePublished,
+    "dateModified": post.dateModified || post.datePublished,
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": post.url
+    },
     "url": post.url
   };
 }

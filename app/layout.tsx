@@ -26,7 +26,34 @@ export const metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <head />
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  var proto = window;
+                  while (proto && !Object.getOwnPropertyDescriptor(proto, 'fetch')) {
+                    proto = Object.getPrototypeOf(proto);
+                  }
+                  if (proto) {
+                    var desc = Object.getOwnPropertyDescriptor(proto, 'fetch');
+                    if (desc && desc.get && !desc.set) {
+                      var origFetch = desc.get.call(window);
+                      Object.defineProperty(window, 'fetch', {
+                        get: function() { return origFetch; },
+                        set: function(v) { origFetch = v; },
+                        configurable: true,
+                        enumerable: true
+                      });
+                    }
+                  }
+                } catch (e) {}
+              })();
+            `,
+          }}
+        />
+      </head>
       <body className={inter.className} suppressHydrationWarning>
         <ThemeProvider>
           <CookieProvider>
