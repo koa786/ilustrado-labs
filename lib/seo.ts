@@ -2,7 +2,7 @@ import { Metadata } from "next";
 
 export const siteConfig = {
   name: "Ilustrado Labs",
-  description: "Free, fast, and secure browser-based developer tools. No data ever leaves your machine.",
+  description: "Free browser-based developer tools including JSON Formatter, Diff Checker, Base64 Encoder, UUID Generator, text utilities, and more. Fast, secure, privacy-friendly.",
   url: "https://ilustradolabs.com", // Replace with actual domain
   ogImage: "https://ilustradolabs.com/og-image.png",
   links: {
