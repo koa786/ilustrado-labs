@@ -83,8 +83,8 @@ export function SearchTools({ placeholder = "Search tools...", className, inputC
       </div>
 
       {isOpen && (
-        <div className="absolute top-full left-0 right-0 mt-2 bg-card border border-border rounded-xl shadow-2xl z-[100] overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
-          <div className="p-2">
+        <div className="absolute top-full left-0 right-0 mt-2 bg-card border border-border rounded-xl shadow-2xl z-50 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200 text-left">
+          <div className="max-h-[60vh] sm:max-h-80 overflow-y-auto p-2 overscroll-contain">
             {results.length > 0 ? (
               <div className="space-y-1">
                 <div className="px-3 py-2 text-xs font-bold text-muted uppercase tracking-wider">
@@ -100,11 +100,11 @@ export function SearchTools({ placeholder = "Search tools...", className, inputC
                     }}
                     className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-primary/10 transition-colors group"
                   >
-                    <div className="w-8 h-8 rounded bg-primary/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-colors">
+                    <div className="w-8 h-8 rounded bg-primary/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-colors shrink-0">
                       <SearchIcon size={14} />
                     </div>
-                    <div className="flex-grow">
-                      <div className="text-sm font-bold">{tool.name}</div>
+                    <div className="flex-grow min-w-0">
+                      <div className="text-sm font-bold truncate">{tool.name}</div>
                       <div className="text-xs text-muted line-clamp-1">{tool.description}</div>
                     </div>
                   </Link>
@@ -119,11 +119,11 @@ export function SearchTools({ placeholder = "Search tools...", className, inputC
           </div>
           <div className="bg-muted/30 px-4 py-2 border-t border-border flex items-center justify-between text-[10px] text-muted">
             <div className="flex items-center gap-2">
-              <span className="px-1.5 py-0.5 bg-background border border-border rounded">ENTER</span>
+              <span className="px-1.5 py-0.5 bg-background border border-border rounded font-mono">ENTER</span>
               <span>to select</span>
             </div>
             <div className="flex items-center gap-2">
-              <span className="px-1.5 py-0.5 bg-background border border-border rounded">ESC</span>
+              <span className="px-1.5 py-0.5 bg-background border border-border rounded font-mono">ESC</span>
               <span>to close</span>
             </div>
           </div>

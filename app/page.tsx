@@ -27,13 +27,13 @@ export default function HomePage() {
   return (
     <div className="flex flex-col gap-20 pb-20">
       {/* Hero Section */}
-      <section className="relative pt-20 pb-32 overflow-hidden">
-        <div className="absolute inset-0 -z-10">
+      <section className="relative pt-20 pb-32">
+        <div className="absolute inset-0 -z-10 overflow-hidden pointer-events-none">
           <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-[128px]" />
           <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-accent/20 rounded-full blur-[128px]" />
         </div>
         
-        <div className="container mx-auto px-4 text-center">
+        <div className="container mx-auto px-4 text-center relative z-10">
           <h1 className="text-5xl md:text-7xl font-bold mb-6 tracking-tight">
             The Ultimate <span className="gradient-text">Developer Toolbox</span>
           </h1>
