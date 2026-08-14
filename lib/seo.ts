@@ -15,7 +15,12 @@ export function constructMetadata({
   title = siteConfig.name,
   description = siteConfig.description,
   image = siteConfig.ogImage,
-  icons = "/favicon.ico",
+  icons = [
+    { url: "/favicon.svg", type: "image/svg+xml" },
+    { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+    { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+    { url: "/favicon.ico", sizes: "any" },
+  ] as any,
   noIndex = false,
   canonical,
   type = "website",
@@ -23,7 +28,7 @@ export function constructMetadata({
   title?: string;
   description?: string;
   image?: string;
-  icons?: string;
+  icons?: any;
   noIndex?: boolean;
   canonical?: string;
   type?: string;
