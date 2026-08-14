@@ -6,6 +6,7 @@ import { CookieProvider } from "@/context/CookieContext";
 import { CookieConsent } from "@/components/CookieConsent";
 import { CookiePreferencesModal } from "@/components/CookiePreferencesModal";
 import { ConsentScriptLoader } from "@/components/ConsentScriptLoader";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -76,6 +77,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <ConsentScriptLoader />
           </CookieProvider>
         </ThemeProvider>
+        <Analytics />
       </body>
     </html>
   );
