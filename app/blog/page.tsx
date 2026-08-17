@@ -8,6 +8,7 @@ export const metadata: Metadata = constructMetadata({
   title: "Blog - Insights & Tutorials",
   description: "Explore in-depth technical guides, developer tools, JSON tutorials, and engineering best practices from Ilustrado Labs.",
   canonical: "/blog",
+  rssFeed: "https://ilustradolabs.com/rss.xml",
 });
 
 export default function BlogPage() {

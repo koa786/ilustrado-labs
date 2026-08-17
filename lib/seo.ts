@@ -24,6 +24,7 @@ export function constructMetadata({
   noIndex = false,
   canonical,
   type = "website",
+  rssFeed,
 }: {
   title?: string;
   description?: string;
@@ -32,6 +33,7 @@ export function constructMetadata({
   noIndex?: boolean;
   canonical?: string;
   type?: string;
+  rssFeed?: string;
 } = {}): Metadata {
   const resolvedUrl = canonical ? `${siteConfig.url}${canonical}` : siteConfig.url;
 
@@ -64,6 +66,11 @@ export function constructMetadata({
     metadataBase: new URL(siteConfig.url),
     alternates: {
       canonical: canonical || siteConfig.url,
+      ...(rssFeed && {
+        types: {
+          "application/rss+xml": rssFeed,
+        },
+      }),
     },
     ...(noIndex && {
       robots: {
