@@ -33,6 +33,8 @@ export function constructMetadata({
   canonical?: string;
   type?: string;
 } = {}): Metadata {
+  const resolvedUrl = canonical ? `${siteConfig.url}${canonical}` : siteConfig.url;
+
   return {
     title: {
       default: title,
@@ -47,7 +49,7 @@ export function constructMetadata({
           url: image,
         },
       ],
-      url: siteConfig.url,
+      url: resolvedUrl,
       siteName: siteConfig.name,
       type: type as any,
     },
