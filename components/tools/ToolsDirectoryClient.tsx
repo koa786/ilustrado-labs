@@ -5,7 +5,7 @@ import { Tool, Category, tools, categories } from "@/data/tools";
 import { GradientBorder } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import Link from "next/link";
-import * as Icons from "lucide-react";
+import { iconMap } from "@/lib/icons";
 import { Search } from "lucide-react";
 
 export function ToolsDirectoryClient() {
@@ -61,7 +61,7 @@ export function ToolsDirectoryClient() {
       {filteredTools.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredTools.map((tool) => {
-            const Icon = (Icons as any)[tool.icon] || Icons.Code;
+            const Icon = iconMap[tool.icon] || iconMap.Code;
             return (
               <Link key={tool.id} href={`/tools/${tool.slug}`}>
                 <GradientBorder className="h-full hover:shadow-primary/10 transition-all group">

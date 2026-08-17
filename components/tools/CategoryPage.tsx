@@ -2,7 +2,7 @@ import { Category, tools } from "@/data/tools";
 import { Container } from "@/components/layout/Container";
 import { GlassCard, GradientBorder } from "@/components/ui/Card";
 import Link from "next/link";
-import * as Icons from "lucide-react";
+import { iconMap } from "@/lib/icons";
 import { ArrowRight } from "lucide-react";
 
 interface CategoryPageProps {
@@ -10,7 +10,7 @@ interface CategoryPageProps {
 }
 
 export function CategoryPage({ category }: CategoryPageProps) {
-  const Icon = (Icons as any)[category.icon] || Icons.Folder;
+  const Icon = iconMap[category.icon] || iconMap.Folder;
   const categoryTools = tools.filter((t) => t.category === category.id);
 
   return (
@@ -32,7 +32,7 @@ export function CategoryPage({ category }: CategoryPageProps) {
       <section>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {categoryTools.map((tool) => {
-            const TIcon = (Icons as any)[tool.icon] || Icons.Code;
+            const TIcon = iconMap[tool.icon] || iconMap.Code;
             return (
               <Link key={tool.id} href={`/tools/${tool.slug}`}>
                 <GradientBorder className="h-full hover:shadow-primary/10 transition-all group">
