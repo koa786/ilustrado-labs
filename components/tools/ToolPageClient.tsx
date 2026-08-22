@@ -3,7 +3,7 @@
 import { Tool, tools } from "@/data/tools";
 import { GlassCard } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
-import * as Icons from "lucide-react";
+import { iconMap } from "@/lib/icons";
 import { Share2, Star, Info, HelpCircle, CheckCircle, ArrowRight } from "lucide-react";
 import Link from "next/link";
 
@@ -34,7 +34,7 @@ interface ToolPageClientProps {
 }
 
 export function ToolPageClient({ tool }: ToolPageClientProps) {
-  const Icon = (Icons as any)[tool.icon] || Icons.Code;
+  const Icon = iconMap[tool.icon] || iconMap.Code;
 
   const renderTool = () => {
     switch (tool.id) {
@@ -176,7 +176,7 @@ export function ToolPageClient({ tool }: ToolPageClientProps) {
             <h2 className="text-3xl font-bold mb-8">Related Tools</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {relatedTools.map((t) => {
-                const TIcon = (Icons as any)[t.icon] || Icons.Code;
+                const TIcon = iconMap[t.icon] || iconMap.Code;
                 return (
                   <Link key={t.id} href={`/tools/${t.slug}`}>
                     <GlassCard className="p-6 h-full hover:bg-primary/5 transition-all group">

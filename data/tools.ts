@@ -281,3 +281,23 @@ export const tools: Tool[] = [
     icon: "FileText",
   },
 ];
+
+/**
+ * Build-time safeguard: tools and categories are resolved from the same
+ * dynamic route (app/tools/[slug]/page.tsx), matched by slug. If a future
+ * tool and category ever share a slug, the tool silently wins the match
+ * and the category page becomes unreachable at that URL with no build
+ * error. This check fails the build loudly instead, the moment it happens.
+ */
+(function assertNoSlugCollisions() {
+  const seen = new Set<string>();
+  const allSlugs = [...tools.map((t) => t.slug), ...categories.map((c) => c.slug)];
+  for (const slug of allSlugs) {
+    if (seen.has(slug)) {
+      throw new Error(
+        `Slug collision detected: "${slug}" is used by more than one tool/category in data/tools.ts. Tool and category slugs must be unique across both lists.`
+      );
+    }
+    seen.add(slug);
+  }
+})();

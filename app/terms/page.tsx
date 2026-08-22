@@ -1,4 +1,12 @@
 import { Container } from "@/components/layout/Container";
+import { constructMetadata } from "@/lib/seo";
+import { Metadata } from "next";
+
+export const metadata: Metadata = constructMetadata({
+  title: "Terms of Service",
+  description: "Review the terms and conditions for using Ilustrado Labs' free browser-based developer tools.",
+  canonical: "/terms",
+});
 
 export default function TermsOfServicePage() {
   return (

@@ -1,4 +1,12 @@
 import { Container } from "@/components/layout/Container";
+import { constructMetadata } from "@/lib/seo";
+import { Metadata } from "next";
+
+export const metadata: Metadata = constructMetadata({
+  title: "Privacy Policy",
+  description: "Read the Ilustrado Labs privacy policy, including how our tools handle data and what analytics we collect.",
+  canonical: "/privacy-policy",
+});
 
 export default function PrivacyPolicyPage() {
   return (

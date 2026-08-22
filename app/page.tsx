@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/Button";
 import { Card, GlassCard, GradientBorder } from "@/components/ui/Card";
 import { tools, categories } from "@/data/tools";
-import * as Icons from "lucide-react";
+import { iconMap } from "@/lib/icons";
 import { ArrowRight, Zap, Shield, Globe } from "lucide-react";
 import Image from "next/image";
 import { SearchTools } from "@/components/ui/SearchTools";
@@ -96,7 +96,7 @@ export default function HomePage() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {featuredTools.map((tool) => {
-            const Icon = (Icons as any)[tool.icon] || Icons.Code;
+            const Icon = iconMap[tool.icon] || iconMap.Code;
             return (
               <Link key={tool.id} href={`/tools/${tool.slug}`}>
                 <GradientBorder className="h-full hover:shadow-primary/10 transition-all group">
@@ -122,7 +122,7 @@ export default function HomePage() {
           <h2 className="text-3xl font-bold mb-10 text-center">Browse by Category</h2>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
             {categories.map((cat) => {
-              const Icon = (Icons as any)[cat.icon] || Icons.Folder;
+              const Icon = iconMap[cat.icon] || iconMap.Folder;
               return (
                 <Link key={cat.id} href={`/tools/${cat.slug}`}>
                   <GlassCard className="flex flex-col items-center justify-center gap-4 p-6 h-full hover:bg-primary/5 hover:border-primary/30 transition-all group">

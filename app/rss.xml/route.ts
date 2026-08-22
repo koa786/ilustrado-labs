@@ -22,7 +22,7 @@ export async function GET() {
     .join("\n");
 
   const rssXml = `<?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2000/svg">
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Ilustrado Labs Blog</title>
     <link>${baseUrl}/blog</link>

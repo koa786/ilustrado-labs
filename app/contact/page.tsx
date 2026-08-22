@@ -2,6 +2,14 @@ import { Container } from "@/components/layout/Container";
 import { Button } from "@/components/ui/Button";
 import { Input, TextArea } from "@/components/ui/Input";
 import { Mail, MessageSquare, Send } from "lucide-react";
+import { constructMetadata } from "@/lib/seo";
+import { Metadata } from "next";
+
+export const metadata: Metadata = constructMetadata({
+  title: "Contact Us",
+  description: "Get in touch with the Ilustrado Labs team with questions, feedback, or tool suggestions.",
+  canonical: "/contact",
+});
 
 export default function ContactPage() {
   return (

@@ -1,4 +1,12 @@
 import { Container } from "@/components/layout/Container";
+import { constructMetadata } from "@/lib/seo";
+import { Metadata } from "next";
+
+export const metadata: Metadata = constructMetadata({
+  title: "About Us",
+  description: "Learn about Ilustrado Labs' mission to build fast, privacy-first, browser-based developer tools.",
+  canonical: "/about",
+});
 
 export default function AboutPage() {
   return (
