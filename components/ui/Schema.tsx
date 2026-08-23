@@ -11,13 +11,39 @@ export function Schema({ data }: SchemaProps) {
   );
 }
 
+// Maps each tool to the schema.org applicationCategory that most accurately
+// describes it. Falls back to "DeveloperApplication" for any tool not
+// explicitly listed here (e.g. a newly added tool), matching prior behavior.
+const APPLICATION_CATEGORY_MAP: Record<string, string> = {
+  "text-diff": "UtilitiesApplication",
+  "json-formatter": "DeveloperApplication",
+  "json-validator": "DeveloperApplication",
+  "base64": "DeveloperApplication",
+  "url-codec": "DeveloperApplication",
+  "word-counter": "UtilitiesApplication",
+  "case-converter": "UtilitiesApplication",
+  "password-gen": "SecurityApplication",
+  "uuid-gen": "DeveloperApplication",
+  "timestamp": "DeveloperApplication",
+  "markdown": "DeveloperApplication",
+  "html-minify": "DeveloperApplication",
+  "css-minify": "DeveloperApplication",
+  "js-minify": "DeveloperApplication",
+  "regex-tester": "DeveloperApplication",
+  "color-conv": "DesignApplication",
+  "slug-gen": "UtilitiesApplication",
+  "text-sorter": "UtilitiesApplication",
+  "deduplicator": "UtilitiesApplication",
+  "lorem-ipsum": "DesignApplication",
+};
+
 export function generateSoftwareAppSchema(tool: any) {
   return {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
     "name": tool.name,
     "operatingSystem": "Any",
-    "applicationCategory": "DeveloperApplication",
+    "applicationCategory": APPLICATION_CATEGORY_MAP[tool.id] || "DeveloperApplication",
     "description": tool.description,
     "offers": {
       "@type": "Offer",

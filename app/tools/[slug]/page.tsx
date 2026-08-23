@@ -26,7 +26,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   if (tool) {
     return constructMetadata({
       title: tool.name,
-      description: tool.description,
+      description: tool.metaDescription || tool.description,
       canonical: `/tools/${tool.slug}`,
     });
   }
