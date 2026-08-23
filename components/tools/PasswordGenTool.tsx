@@ -5,6 +5,27 @@ import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Copy, Check, RefreshCw, Shield } from "lucide-react";
 
+// Returns a cryptographically secure, uniformly-distributed random integer
+// in the range [0, maxExclusive) using the Web Crypto API. Plain
+// `crypto.getRandomValues() % maxExclusive` would introduce a slight bias
+// for most maxExclusive values, since the Uint32 range (2^32 values)
+// rarely divides evenly by the character-set size. Rejection sampling
+// discards any draw that falls in that uneven remainder, guaranteeing a
+// perfectly uniform result. For a character set this small (well under
+// 100 characters), the rejection probability per draw is a fraction of a
+// percent, so this has no perceptible performance cost.
+function secureRandomInt(maxExclusive: number): number {
+  const RANGE = 4294967296; // 2^32 — total number of possible Uint32 values
+  const limit = RANGE - (RANGE % maxExclusive);
+  const arr = new Uint32Array(1);
+  let rand: number;
+  do {
+    crypto.getRandomValues(arr);
+    rand = arr[0];
+  } while (rand >= limit);
+  return rand % maxExclusive;
+}
+
 export function PasswordGenTool() {
   const [password, setPassword] = useState("");
   const [length, setLength] = useState(16);
@@ -34,7 +55,7 @@ export function PasswordGenTool() {
 
     let result = "";
     for (let i = 0; i < length; i++) {
-      result += chars.charAt(Math.floor(Math.random() * chars.length));
+      result += chars.charAt(secureRandomInt(chars.length));
     }
     setPassword(result);
   };
