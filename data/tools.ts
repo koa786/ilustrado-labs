@@ -72,7 +72,7 @@ export const categories: Category[] = [
     slug: "security-tools",
     icon: "Shield",
     description: "Generate secure passwords and unique identifiers.",
-    longDescription: "Security is not an afterthought at Ilustrado Labs. Our Security Tools category offers generators for passwords and UUIDs that run entirely in your browser. Because generation happens locally, your generated passwords and identifiers are never transmitted over the network before you see and copy them.",
+    longDescription: "Security is not an afterthought at Ilustrado Labs. Our Security Tools category offers generators for passwords and UUIDs that run entirely in your browser, using the Web Crypto API's cryptographically secure random number generator rather than Math.random(). Because generation happens locally, your generated passwords and identifiers are never transmitted over the network before you see and copy them.",
     whyUseThis: "A password or identifier generated on a server you don't control has, by definition, existed somewhere outside your browser before you ever see it. These tools generate everything locally, so the value on your screen is the only place it has ever existed until you use it.",
     gettingStarted: "Set your options — length and character types for passwords, nothing for UUIDs — and generate. Copy the result immediately and treat it as sensitive; the tool doesn't store or remember what it generated."
   },
@@ -319,8 +319,8 @@ export const tools: Tool[] = [
     name: "Password Generator",
     slug: "password-generator",
     description: "Generate secure, random passwords with custom settings.",
-    metaDescription: "Generate a random password with your choice of length and character types — created locally in your browser and never transmitted anywhere.",
-    longDescription: "Password Generator creates a random password using whichever character sets you enable — uppercase, lowercase, numbers, and symbols — at a length you choose from 4 to 64 characters. Because it runs entirely in your browser, the password is never sent anywhere before you see it.",
+    metaDescription: "Generate a random password using your browser's cryptographically secure random number generator — created locally and never transmitted anywhere.",
+    longDescription: "Password Generator creates a random password using whichever character sets you enable — uppercase, lowercase, numbers, and symbols — at a length you choose from 4 to 64 characters. Character selection uses the Web Crypto API's cryptographically secure random number generator, rather than Math.random(), which is not designed for security-sensitive values. Generation runs entirely in your browser, so the password is never sent anywhere before you see it.",
     category: "generators",
     icon: "Lock",
     howTo: "Set your desired length with the slider, choose which character types to include, and click Generate. Click the refresh icon to generate a new one with the same settings, or copy the result directly.",
@@ -331,6 +331,12 @@ export const tools: Tool[] = [
     tips: [
       "Length matters more than complexity for resisting brute-force guessing — a longer password with fewer symbol requirements is generally stronger than a short one packed with special characters.",
       "Because generation happens locally, closing or refreshing the page means the password is gone for good if you didn't copy it — there's no history to recover it from."
+    ],
+    faqs: [
+      {
+        question: "Is this password generator cryptographically secure?",
+        answer: "The randomness used to select each character comes from the Web Crypto API (crypto.getRandomValues()), the same source browsers use for cryptographic operations — not Math.random(), which isn't designed for security-sensitive values. That covers the randomness itself; how you store and use the resulting password is still up to you."
+      }
     ]
   },
   {
