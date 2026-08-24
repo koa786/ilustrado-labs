@@ -58,16 +58,20 @@ export function CategoryPage({ category }: CategoryPageProps) {
           <h2 className="text-3xl font-bold mb-6">Mastering {category.name}</h2>
           <div className="prose prose-invert max-w-none text-muted leading-relaxed space-y-6">
             <p>{category.longDescription}</p>
-            
-            <h3 className="text-2xl font-bold text-foreground mt-8">Why use our {category.name}?</h3>
-            <p>
-              At Ilustrado Labs, we prioritize performance and privacy. Our {category.name.toLowerCase()} are built using modern web technologies that allow all processing to happen directly in your browser. This means your data never leaves your machine, providing a secure environment for even the most sensitive tasks.
-            </p>
-            
-            <h3 className="text-2xl font-bold text-foreground mt-8">Getting Started</h3>
-            <p>
-              Simply select any tool from the list above to get started. Each tool is designed with a clean, intuitive interface that works seamlessly on both desktop and mobile devices. Whether you&apos;re a professional developer or someone looking to perform a quick task, our tools are here to help you work smarter, not harder.
-            </p>
+
+            {category.whyUseThis && (
+              <>
+                <h3 className="text-2xl font-bold text-foreground mt-8">Why use these tools?</h3>
+                <p>{category.whyUseThis}</p>
+              </>
+            )}
+
+            {category.gettingStarted && (
+              <>
+                <h3 className="text-2xl font-bold text-foreground mt-8">Getting Started</h3>
+                <p>{category.gettingStarted}</p>
+              </>
+            )}
           </div>
         </GlassCard>
       </section>

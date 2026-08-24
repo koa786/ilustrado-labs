@@ -5,6 +5,39 @@ import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Copy, Check, RefreshCw, Shield } from "lucide-react";
 
+// Returns a cryptographically secure, uniformly-distributed random integer
+// in the range [0, maxExclusive) using the Web Crypto API. Plain
+// `crypto.getRandomValues() % maxExclusive` would introduce a slight bias
+// for most maxExclusive values, since the Uint32 range (2^32 values)
+// rarely divides evenly by the character-set size. Rejection sampling
+// discards any draw that falls in that uneven remainder, guaranteeing a
+// perfectly uniform result. For a character set this small (well under
+// 100 characters), the rejection probability per draw is a fraction of a
+// percent, so this has no perceptible performance cost.
+function secureRandomInt(maxExclusive: number): number {
+  const RANGE = 4294967296; // 2^32 — total number of possible Uint32 values
+  const limit = RANGE - (RANGE % maxExclusive);
+  const arr = new Uint32Array(1);
+  let rand: number;
+  do {
+    crypto.getRandomValues(arr);
+    rand = arr[0];
+  } while (rand >= limit);
+  return rand % maxExclusive;
+}
+
+// Fisher-Yates shuffle using the same secure randomness source, so the
+// guaranteed-category characters below don't end up predictably placed
+// (e.g. always at the start of the password).
+function secureShuffle<T>(arr: T[]): T[] {
+  const result = [...arr];
+  for (let i = result.length - 1; i > 0; i--) {
+    const j = secureRandomInt(i + 1);
+    [result[i], result[j]] = [result[j], result[i]];
+  }
+  return result;
+}
+
 export function PasswordGenTool() {
   const [password, setPassword] = useState("");
   const [length, setLength] = useState(16);
@@ -24,18 +57,30 @@ export function PasswordGenTool() {
       symbols: "!@#$%^&*()_+~`|}{[]:;?><,./-=",
     };
 
-    let chars = "";
-    if (options.uppercase) chars += charSets.uppercase;
-    if (options.lowercase) chars += charSets.lowercase;
-    if (options.numbers) chars += charSets.numbers;
-    if (options.symbols) chars += charSets.symbols;
+    const enabledSets: string[] = [];
+    if (options.uppercase) enabledSets.push(charSets.uppercase);
+    if (options.lowercase) enabledSets.push(charSets.lowercase);
+    if (options.numbers) enabledSets.push(charSets.numbers);
+    if (options.symbols) enabledSets.push(charSets.symbols);
 
-    if (!chars) return setPassword("");
+    if (enabledSets.length === 0) return setPassword("");
 
-    let result = "";
-    for (let i = 0; i < length; i++) {
-      result += chars.charAt(Math.floor(Math.random() * chars.length));
-    }
+    const combined = enabledSets.join("");
+
+    // Guarantee one securely-chosen character from every enabled category.
+    const guaranteed = enabledSets.map((set) => set.charAt(secureRandomInt(set.length)));
+
+    // Fill the remaining length from the full combined pool.
+    const remaining = Math.max(0, length - guaranteed.length);
+    const filler = Array.from({ length: remaining }, () =>
+      combined.charAt(secureRandomInt(combined.length))
+    );
+
+    // Shuffle so the guaranteed characters aren't always at the front, then
+    // trim to the requested length (a no-op in every reachable configuration,
+    // since length's minimum of 4 can never be less than the number of
+    // enabled categories — kept only as a safety net).
+    const result = secureShuffle([...guaranteed, ...filler]).slice(0, length).join("");
     setPassword(result);
   };
 

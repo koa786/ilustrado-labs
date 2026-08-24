@@ -4,7 +4,7 @@ import { Tool, tools } from "@/data/tools";
 import { GlassCard } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { iconMap } from "@/lib/icons";
-import { Share2, Star, Info, HelpCircle, CheckCircle, ArrowRight } from "lucide-react";
+import { Share2, Star, Info, HelpCircle, CheckCircle, ArrowRight, ListChecks, Lightbulb, AlertTriangle } from "lucide-react";
 import Link from "next/link";
 
 // Tool Implementations
@@ -62,9 +62,13 @@ export function ToolPageClient({ tool }: ToolPageClientProps) {
     }
   };
 
-  const relatedTools = tools
-    .filter((t) => t.category === tool.category && t.id !== tool.id)
-    .slice(0, 3);
+  const relatedTools = tool.relatedToolIds
+    ? tool.relatedToolIds
+        .map((id) => tools.find((t) => t.id === id))
+        .filter((t): t is Tool => Boolean(t))
+    : tools
+        .filter((t) => t.category === tool.category && t.id !== tool.id)
+        .slice(0, 3);
 
   return (
     <div className="space-y-16">
@@ -117,12 +121,24 @@ export function ToolPageClient({ tool }: ToolPageClientProps) {
             <p>
               {tool.longDescription || tool.description}
             </p>
-            <p className="mt-4">
-              Like all tools on Ilustrado Labs, this utility runs entirely in your browser. This means your data is never sent to our servers, 
-              ensuring maximum privacy and security for your sensitive information.
-            </p>
           </div>
         </section>
+
+        {tool.useCases && (
+          <section>
+            <h2 className="text-3xl font-bold mb-8 flex items-center gap-3">
+              <ListChecks size={32} className="text-primary" /> Common Use Cases
+            </h2>
+            <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {tool.useCases.map((useCase, i) => (
+                <li key={i} className="flex items-start gap-3 p-4 bg-muted/5 border border-border rounded-xl text-muted">
+                  <ArrowRight size={18} className="text-primary shrink-0 mt-0.5" />
+                  <span>{useCase}</span>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
 
         {tool.benefits && (
           <section>
@@ -148,6 +164,38 @@ export function ToolPageClient({ tool }: ToolPageClientProps) {
                   <pre className="p-4 bg-black/50 border border-border rounded-xl overflow-x-auto text-sm font-mono">
                     <code>{example.code}</code>
                   </pre>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {tool.tips && (
+          <section>
+            <h2 className="text-3xl font-bold mb-8 flex items-center gap-3">
+              <Lightbulb size={32} className="text-primary" /> Tips
+            </h2>
+            <div className="space-y-4">
+              {tool.tips.map((tip, i) => (
+                <div key={i} className="flex items-start gap-3 p-4 bg-primary/5 border border-primary/20 rounded-xl">
+                  <Lightbulb size={18} className="text-primary shrink-0 mt-0.5" />
+                  <span className="text-muted">{tip}</span>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {tool.commonMistakes && (
+          <section>
+            <h2 className="text-3xl font-bold mb-8 flex items-center gap-3">
+              <AlertTriangle size={32} className="text-primary" /> Common Mistakes
+            </h2>
+            <div className="space-y-4">
+              {tool.commonMistakes.map((mistake, i) => (
+                <div key={i} className="flex items-start gap-3 p-4 bg-muted/5 border border-border rounded-xl">
+                  <AlertTriangle size={18} className="text-primary shrink-0 mt-0.5" />
+                  <span className="text-muted">{mistake}</span>
                 </div>
               ))}
             </div>
