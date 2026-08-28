@@ -1,66 +1,19 @@
-"use client";
-
 import { Tool, tools } from "@/data/tools";
+import { BlogPost } from "@/lib/mdx";
 import { GlassCard } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { iconMap } from "@/lib/icons";
-import { Share2, Star, Info, HelpCircle, CheckCircle, ArrowRight, ListChecks, Lightbulb, AlertTriangle } from "lucide-react";
+import { Share2, Star, Info, HelpCircle, CheckCircle, ArrowRight, ListChecks, Lightbulb, AlertTriangle, BookOpen } from "lucide-react";
 import Link from "next/link";
-
-// Tool Implementations
-import { TextDiffTool } from "@/components/tools/TextDiffTool";
-import { JsonFormatterTool } from "@/components/tools/JsonFormatterTool";
-import { JsonValidatorTool } from "@/components/tools/JsonValidatorTool";
-import { Base64Tool } from "@/components/tools/Base64Tool";
-import { UrlCodecTool } from "@/components/tools/UrlCodecTool";
-import { WordCounterTool } from "@/components/tools/WordCounterTool";
-import { CaseConverterTool } from "@/components/tools/CaseConverterTool";
-import { PasswordGenTool } from "@/components/tools/PasswordGenTool";
-import { UuidGenTool } from "@/components/tools/UuidGenTool";
-import { TimestampTool } from "@/components/tools/TimestampTool";
-import { MarkdownTool } from "@/components/tools/MarkdownTool";
-import { HtmlMinifyTool } from "@/components/tools/HtmlMinifyTool";
-import { CssMinifyTool } from "@/components/tools/CssMinifyTool";
-import { JsMinifyTool } from "@/components/tools/JsMinifyTool";
-import { RegexTesterTool } from "@/components/tools/RegexTesterTool";
-import { ColorConvTool } from "@/components/tools/ColorConvTool";
-import { SlugGenTool } from "@/components/tools/SlugGenTool";
-import { TextSorterTool } from "@/components/tools/TextSorterTool";
-import { DeduplicatorTool } from "@/components/tools/DeduplicatorTool";
-import { LoremIpsumTool } from "@/components/tools/LoremIpsumTool";
+import { InteractiveTool } from "@/components/tools/InteractiveTool";
 
 interface ToolPageClientProps {
   tool: Tool;
+  relatedGuides?: BlogPost[];
 }
 
-export function ToolPageClient({ tool }: ToolPageClientProps) {
+export function ToolPageClient({ tool, relatedGuides = [] }: ToolPageClientProps) {
   const Icon = iconMap[tool.icon] || iconMap.Code;
-
-  const renderTool = () => {
-    switch (tool.id) {
-      case "text-diff": return <TextDiffTool />;
-      case "json-formatter": return <JsonFormatterTool />;
-      case "json-validator": return <JsonValidatorTool />;
-      case "base64": return <Base64Tool />;
-      case "url-codec": return <UrlCodecTool />;
-      case "word-counter": return <WordCounterTool />;
-      case "case-converter": return <CaseConverterTool />;
-      case "password-gen": return <PasswordGenTool />;
-      case "uuid-gen": return <UuidGenTool />;
-      case "timestamp": return <TimestampTool />;
-      case "markdown": return <MarkdownTool />;
-      case "html-minify": return <HtmlMinifyTool />;
-      case "css-minify": return <CssMinifyTool />;
-      case "js-minify": return <JsMinifyTool />;
-      case "regex-tester": return <RegexTesterTool />;
-      case "color-conv": return <ColorConvTool />;
-      case "slug-gen": return <SlugGenTool />;
-      case "text-sorter": return <TextSorterTool />;
-      case "deduplicator": return <DeduplicatorTool />;
-      case "lorem-ipsum": return <LoremIpsumTool />;
-      default: return <div>Tool not implemented yet.</div>;
-    }
-  };
 
   const relatedTools = tool.relatedToolIds
     ? tool.relatedToolIds
@@ -76,7 +29,7 @@ export function ToolPageClient({ tool }: ToolPageClientProps) {
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
         <div className="lg:col-span-3">
           <GlassCard className="min-h-[400px]">
-            {renderTool()}
+            <InteractiveTool toolId={tool.id} />
           </GlassCard>
         </div>
         
@@ -123,6 +76,24 @@ export function ToolPageClient({ tool }: ToolPageClientProps) {
             </p>
           </div>
         </section>
+
+        {tool.contentSections && tool.contentSections.map((section) => (
+          <section key={section.id}>
+            <h2 className="text-3xl font-bold mb-6">{section.heading}</h2>
+            <div className="prose prose-invert max-w-none text-muted leading-relaxed space-y-4">
+              {section.paragraphs.map((paragraph, i) => (
+                <p key={i}>{paragraph}</p>
+              ))}
+              {section.list && (
+                <ul className="space-y-2 list-disc pl-6">
+                  {section.list.map((item, i) => (
+                    <li key={i}>{item}</li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          </section>
+        ))}
 
         {tool.useCases && (
           <section>
@@ -237,6 +208,24 @@ export function ToolPageClient({ tool }: ToolPageClientProps) {
                   </Link>
                 );
               })}
+            </div>
+          </section>
+        )}
+        {/* Related Guides */}
+        {relatedGuides.length > 0 && (
+          <section>
+            <h2 className="text-3xl font-bold mb-8 flex items-center gap-3">
+              <BookOpen size={32} className="text-primary" /> Related Guides
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {relatedGuides.map((post) => (
+                <Link key={post.slug} href={`/blog/${post.slug}`}>
+                  <GlassCard className="p-6 h-full hover:bg-primary/5 transition-all">
+                    <h3 className="font-bold mb-2">{post.frontmatter.title}</h3>
+                    <p className="text-sm text-muted">{post.frontmatter.description}</p>
+                  </GlassCard>
+                </Link>
+              ))}
             </div>
           </section>
         )}

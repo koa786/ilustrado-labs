@@ -3,6 +3,18 @@ export interface FAQ {
   answer: string;
 }
 
+// A flexible, optional deep-dive content section for prose that doesn't fit
+// the simpler list-shaped fields below (useCases, benefits, tips, etc.) —
+// e.g. "What Is a JSON Formatter?" or "Password Length and Entropy". Each
+// tool defines its own set of sections with its own heading text; nothing
+// here is templated from the tool name.
+export interface ContentSection {
+  id: string;
+  heading: string;
+  paragraphs: string[];
+  list?: string[];
+}
+
 export interface Tool {
   id: string;
   name: string;
@@ -10,6 +22,11 @@ export interface Tool {
   description: string;
   metaDescription?: string;
   longDescription?: string;
+  // Optional H1 override — falls back to `name` when absent.
+  pageHeading?: string;
+  // Optional intro paragraph shown under the H1 — falls back to
+  // `description` when absent.
+  intro?: string;
   category: string;
   icon: string;
   featured?: boolean;
@@ -22,6 +39,12 @@ export interface Tool {
   tips?: string[];
   commonMistakes?: string[];
   relatedToolIds?: string[];
+  // Optional flexible deep-dive sections — see ContentSection above.
+  contentSections?: ContentSection[];
+  // Optional blog post slugs (matching content/blog/*.mdx frontmatter
+  // `slug`) to surface as "Related Guides". Invalid/missing slugs are
+  // silently skipped by the renderer, not an error.
+  relatedGuideSlugs?: string[];
 }
 
 export interface Category {
@@ -144,13 +167,15 @@ export const tools: Tool[] = [
     description: "Prettify and format your JSON data for better readability.",
     metaDescription: "Paste minified or messy JSON and get instantly readable, properly indented output — free JSON formatter that runs entirely in your browser.",
     longDescription: "JSON Formatter is an essential tool for developers working with web APIs and configuration files. It takes minified or messy JSON strings and transforms them into a beautifully indented, human-readable format. This makes debugging and data analysis significantly easier by providing a clear visual structure of the data hierarchy.",
+    pageHeading: "JSON Formatter & Beautifier",
+    intro: "Format, beautify, and minify JSON directly in your browser — with clear indentation for easier debugging and readable API responses. Nothing you paste is sent to a server.",
     category: "json",
     icon: "FileJson",
     howTo: "To use the JSON Formatter, simply paste your minified or unformatted JSON into the input area. The tool will automatically detect the data and apply standard indentation (usually 2 spaces) to make it readable. You can then copy the formatted result back to your project.",
     steps: [
       "Copy your minified JSON string from your source code or API response.",
       "Paste the JSON into the input field on this page.",
-      "The tool will instantly format the JSON with proper indentation and syntax highlighting.",
+      "The tool will instantly format the JSON with proper indentation, revealing its full nested structure.",
       "Review the formatted data for any structural issues.",
       "Click the 'Copy' button to save the formatted JSON to your clipboard."
     ],
@@ -171,6 +196,44 @@ export const tools: Tool[] = [
       "Supports large JSON files without performance lag.",
       "Free to use with no registration required."
     ],
+    contentSections: [
+      {
+        id: "what-is",
+        heading: "What Is a JSON Formatter?",
+        paragraphs: [
+          "JSON (JavaScript Object Notation) is a text-based format for representing structured data — objects with key-value pairs, arrays, strings, numbers, and booleans. It's the standard format for API responses and configuration files, which means most developers encounter it daily.",
+          "API responses are often minified to reduce payload size, and hand-edited config files can lose consistent indentation over time. Either way, the result is hard to scan. A JSON formatter (also called a JSON beautifier) parses the JSON and re-outputs it with consistent indentation — each nested level shifted further right, one key-value pair per line — without changing the underlying data."
+        ]
+      },
+      {
+        id: "why-format",
+        heading: "Why Format JSON?",
+        paragraphs: [
+          "Formatting isn't just cosmetic. When debugging why an API response doesn't match what your code expects, readable indentation is what lets you spot a missing field or an array where you expected an object. It also makes formatted examples usable in documentation and pull requests, where a minified line isn't."
+        ]
+      },
+      {
+        id: "vs-validator",
+        heading: "JSON Formatter vs JSON Validator",
+        paragraphs: [
+          "These tools solve related but different problems. A formatter takes JSON that's already valid and re-indents it for readability — its job is presentation, not correctness checking. A validator takes JSON of unknown correctness and tells you specifically whether it parses, and if not, exactly where the syntax breaks.",
+          "This formatter will also surface a parse error if your input isn't valid JSON, but it stops there. If you're specifically diagnosing a syntax problem, the JSON Validator tool on this site is built for that."
+        ]
+      },
+      {
+        id: "common-problems",
+        heading: "Common JSON Formatting Problems",
+        paragraphs: [
+          "Invalid JSON can't be formatted until the underlying syntax issue is fixed — a formatter can only re-indent JSON it can successfully parse. The most common issues that cause a parse error:"
+        ],
+        list: [
+          "Missing commas between properties or array items.",
+          "Trailing commas after the last item in an object or array — valid in JavaScript object literals, but not in JSON.",
+          "Single quotes instead of double quotes — JSON strings and keys must use double quotes.",
+          "Unmatched brackets or braces."
+        ]
+      }
+    ],
     faqs: [
       {
         question: "Is my JSON data sent to a server?",
@@ -185,7 +248,8 @@ export const tools: Tool[] = [
         answer: "While it can't automatically fix syntax errors, it will highlight where the error is so you can correct it manually."
       }
     ],
-    relatedToolIds: ["json-validator"]
+    relatedToolIds: ["json-validator"],
+    relatedGuideSlugs: ["json-formatter-guide", "json-validator-guide"]
   },
   {
     id: "json-validator",
