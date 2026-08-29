@@ -6,6 +6,7 @@ import { Schema, generateSoftwareAppSchema, generateFAQSchema, generateBreadcrum
 import { ToolPageClient } from "@/components/tools/ToolPageClient";
 import { CategoryPage } from "@/components/tools/CategoryPage";
 import { constructMetadata } from "@/lib/seo";
+import { getPostBySlug } from "@/lib/mdx";
 import { Metadata } from "next";
 
 export async function generateStaticParams() {
@@ -76,17 +77,24 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
       { label: tool.name, href: `/tools/${tool.slug}` },
     ];
 
+    // Resolve related guide slugs server-side (getPostBySlug reads the
+    // filesystem, which can't happen inside the "use client" ToolPageClient).
+    // Missing or invalid slugs are silently skipped, not an error.
+    const relatedGuides = (tool.relatedGuideSlugs ?? [])
+      .map((slug) => getPostBySlug(slug))
+      .filter((post): post is NonNullable<typeof post> => Boolean(post));
+
     return (
       <div className="py-12">
         <Container>
           <Breadcrumbs items={breadcrumbItems} />
           <div className="flex flex-col md:flex-row items-start gap-6 mb-12">
             <div className="flex-grow">
-              <h1 className="text-4xl md:text-6xl font-bold mb-4">{tool.name}</h1>
-              <p className="text-xl text-muted max-w-3xl">{tool.description}</p>
+              <h1 className="text-4xl md:text-6xl font-bold mb-4">{tool.pageHeading || tool.name}</h1>
+              <p className="text-xl text-muted max-w-3xl">{tool.intro || tool.description}</p>
             </div>
           </div>
-          <ToolPageClient tool={tool} />
+          <ToolPageClient tool={tool} relatedGuides={relatedGuides} />
           
           {/* Structured Data */}
           <Schema data={generateSoftwareAppSchema(tool)} />
