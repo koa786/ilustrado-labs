@@ -286,7 +286,28 @@ export const tools: Tool[] = [
       },
       {
         question: "Does it check my data against a schema, like required fields?",
-        answer: "No — it checks JSON syntax only (is it parseable), not whether the data matches a particular structure or schema."
+        answer: "No — it checks JSON syntax only (is it parseable), not whether the data matches a particular structure or schema. If you need to enforce required fields or data types, that's a separate concern (JSON Schema validation), which this tool doesn't perform."
+      },
+      {
+        question: "Why does the error mention a character position?",
+        answer: "The error message comes directly from your browser's built-in JSON parser, which reports exactly where in the string it stopped being able to parse — that position is usually the fastest way to locate the actual problem, even in a long document."
+      }
+    ],
+    contentSections: [
+      {
+        id: "vs-formatter",
+        heading: "JSON Validator vs JSON Formatter",
+        paragraphs: [
+          "Validation and formatting solve different problems, even though they're often needed together. Validation answers one question: is this JSON syntactically correct? Formatting doesn't ask that question at all — it takes JSON that's already valid and re-indents it for readability.",
+          "In practice, the JSON Formatter on this site will also fail on invalid input, since it can't format what it can't parse — but its error handling isn't the focus of that tool. If you're specifically trying to pin down a syntax error rather than read a large formatted document, this Validator is built for exactly that."
+        ]
+      },
+      {
+        id: "what-makes-invalid",
+        heading: "What Makes JSON Invalid",
+        paragraphs: [
+          "JSON's syntax rules are stricter than they look, and stricter than JavaScript's own object literal syntax — which is a common source of confusion since the two look almost identical. The most common causes of an invalid document are covered below; each one will produce a distinct parser error pointing at roughly where it happened."
+        ]
       }
     ],
     relatedToolIds: ["json-formatter"]
@@ -301,6 +322,12 @@ export const tools: Tool[] = [
     category: "converters",
     icon: "Hash",
     howTo: "Paste your text and click 'Encode to Base64' to convert it, or paste a Base64 string and click 'Decode from Base64' to get the original text back. The swap button lets you feed the output back in as input for a quick round-trip check.",
+    steps: [
+      "Paste plain text into the input to encode it, or paste a Base64 string to decode it.",
+      "Click 'Encode to Base64' or 'Decode from Base64' depending on what you're starting with.",
+      "Use the swap button to feed the output back in as input for a round-trip check.",
+      "Copy the result to your clipboard."
+    ],
     useCases: [
       "Decoding a Base64-encoded JWT payload or API auth header to inspect its contents.",
       "Preparing a small data URI for embedding directly in HTML or CSS.",
@@ -315,6 +342,26 @@ export const tools: Tool[] = [
       {
         question: "Is Base64 the same as encryption?",
         answer: "No. Base64 just re-represents data as text — it provides no confidentiality. Anyone can decode a Base64 string back to its original form instantly."
+      },
+      {
+        question: "Why did encoding fail on my text?",
+        answer: "This tool uses the browser's built-in Base64 encoder, which works directly only on Latin1 characters. Text containing emoji or non-Latin scripts (Chinese, Arabic, Cyrillic, and similar) will throw an error rather than encode."
+      }
+    ],
+    contentSections: [
+      {
+        id: "not-encryption",
+        heading: "Base64 Isn't Encryption",
+        paragraphs: [
+          "Base64 is sometimes mistaken for a security measure because the output looks unreadable at a glance. It isn't one — Base64 is a reversible encoding, not encryption. Anyone can decode a Base64 string back to its original form in one step, with no key or password required. Its purpose is representing binary-safe data as plain text, not hiding information."
+        ]
+      },
+      {
+        id: "where-used",
+        heading: "Where Base64 Is Actually Used",
+        paragraphs: [
+          "Base64 shows up wherever binary or arbitrary data needs to travel through a system that only reliably handles text — the payload portion of a JWT, a small image or font embedded directly in CSS or HTML as a data URI, or an attachment encoded for inclusion in an email's plain-text body. In each case, the goal is compatibility with a text-only channel, not confidentiality."
+        ]
       }
     ],
     relatedToolIds: ["url-codec"]
@@ -329,6 +376,11 @@ export const tools: Tool[] = [
     category: "converters",
     icon: "Link",
     howTo: "Paste the text or value you want to encode and click 'Encode URL'. To reverse a percent-encoded string, paste it and click 'Decode URL'.",
+    steps: [
+      "Paste the value you want to encode, or a percent-encoded string you want to decode.",
+      "Click 'Encode URL' or 'Decode URL' depending on which direction you need.",
+      "Copy the result to your clipboard."
+    ],
     useCases: [
       "Encoding a value (like a search query or email address) before appending it to a URL as a query parameter.",
       "Decoding a URL you copied from a browser address bar to read what a %-encoded parameter actually says.",
@@ -341,9 +393,23 @@ export const tools: Tool[] = [
       {
         question: "Can I encode an entire URL with this tool?",
         answer: "You can, but it will encode every special character including the ones that make it a working URL, like ':' and '/'. This tool is built for encoding individual pieces — like a query parameter's value — not the full address."
+      },
+      {
+        question: "What characters actually get encoded?",
+        answer: "This tool uses the browser's encodeURIComponent, which leaves letters, digits, and a small set of characters (- _ . ! ~ * ' ( )) unencoded and percent-encodes everything else, including reserved URL characters like /, :, &, and =."
       }
     ],
-    relatedToolIds: ["slug-gen"]
+    contentSections: [
+      {
+        id: "component-vs-full-url",
+        heading: "Encoding a Component vs a Full URL",
+        paragraphs: [
+          "This tool encodes URL components — a single value, like a query parameter or path segment — not entire URLs. That's an important distinction: characters like / and : are part of a URL's actual structure and need to stay unencoded for the URL to work, but they're also exactly the kind of characters this tool encodes, since it can't tell the difference between structural characters and ones that happen to appear inside a value.",
+          "In practice, that means the right way to use this tool is to encode just the piece that needs it — a search term, an email address, a parameter value — and build the rest of the URL around it yourself."
+        ]
+      }
+    ],
+    relatedToolIds: ["base64", "slug-gen"]
   },
   {
     id: "word-counter",
@@ -388,6 +454,12 @@ export const tools: Tool[] = [
     category: "generators",
     icon: "Lock",
     howTo: "Set your desired length with the slider, choose which character types to include, and click Generate. Click the refresh icon to generate a new one with the same settings, or copy the result directly.",
+    steps: [
+      "Set your desired password length using the slider (4–64 characters).",
+      "Toggle which character types to include: uppercase, lowercase, numbers, symbols.",
+      "Click Generate to create a password using the Web Crypto API.",
+      "Click the refresh icon to generate a new one with the same settings, or copy the result."
+    ],
     useCases: [
       "Creating a one-off password for a new account or service.",
       "Generating a password that meets a specific site's length or character requirements by toggling the relevant options."
@@ -400,8 +472,32 @@ export const tools: Tool[] = [
       {
         question: "Is this password generator cryptographically secure?",
         answer: "The randomness used to select each character comes from the Web Crypto API (crypto.getRandomValues()), the same source browsers use for cryptographic operations — not Math.random(), which isn't designed for security-sensitive values. That covers the randomness itself; how you store and use the resulting password is still up to you."
+      },
+      {
+        question: "Are all four character types guaranteed to appear?",
+        answer: "Yes — if you enable multiple character types, at least one character from each enabled type is guaranteed to appear in the generated password, not left to chance. Their positions are then shuffled so they don't predictably cluster at the start."
       }
-    ]
+    ],
+    contentSections: [
+      {
+        id: "what-makes-strong",
+        heading: "What Makes a Strong Password?",
+        paragraphs: [
+          "Password strength mostly comes down to how many possible passwords an attacker would have to guess before finding the right one — a property called entropy. Length contributes far more to this than character variety does: adding four more characters to a password increases the guessing space more than adding symbols to a shorter one. That's why a longer password using just letters and numbers can be stronger than a short one packed with symbols.",
+          "The other factor that matters is unpredictability. A password generated by a genuine random process, like this tool's, has no pattern an attacker could exploit — unlike a password a person chooses by hand, which tends to follow patterns (real words, predictable substitutions, personal details) that make it easier to guess than its length alone would suggest."
+        ]
+      },
+      {
+        id: "how-randomness-works",
+        heading: "How This Generator's Randomness Works",
+        paragraphs: [
+          "Each character is selected using the Web Crypto API's crypto.getRandomValues(), not Math.random(). To avoid a subtle statistical bias that a naive implementation would introduce — where some characters would be selected very slightly more often than others — this tool uses rejection sampling: it draws a random value and discards it if it falls in a range that wouldn't map evenly onto the character set, then draws again.",
+          "If you've enabled multiple character types, one character from each enabled type is drawn first to guarantee it appears, and the rest of the password is filled from the full combined set. The whole result is then shuffled using a Fisher-Yates shuffle — also driven by the same secure randomness — so the guaranteed characters don't end up predictably placed at the start."
+        ]
+      }
+    ],
+    relatedToolIds: ["uuid-gen"],
+    relatedGuideSlugs: ["secure-passwords", "client-side-processing"]
   },
   {
     id: "uuid-gen",
@@ -520,6 +616,12 @@ export const tools: Tool[] = [
     category: "coding",
     icon: "Search",
     howTo: "Enter your pattern, set any flags you need (like 'g' for global or 'i' for case-insensitive), and type or paste your test text. Matches update live, with each match's index and any capture groups listed below it.",
+    steps: [
+      "Enter your regular expression pattern.",
+      "Set any flags you need — for example 'g' for global matching or 'i' for case-insensitive.",
+      "Type or paste your test text — matches update live as you type.",
+      "Review each match's index and any capture groups listed below it."
+    ],
     useCases: [
       "Debugging why a regex isn't matching what you expect before using it in code.",
       "Testing an email, URL, or phone-number pattern against a range of sample inputs.",
@@ -527,7 +629,38 @@ export const tools: Tool[] = [
     ],
     tips: [
       "The 'g' (global) flag changes whether the tool finds every match or stops at the first one — if you're only seeing one result but expect more, check whether 'g' is included in the flags field."
-    ]
+    ],
+    faqs: [
+      {
+        question: "Why is my regex only matching once?",
+        answer: "Without the 'g' (global) flag, a regex stops after its first match. Add 'g' to the flags field to find every match in the text instead of just the first."
+      },
+      {
+        question: "What do capture groups do?",
+        answer: "Parentheses in a pattern create a capture group — a sub-part of the match that gets extracted separately. This tool lists each match's capture groups underneath it, so you can see exactly what each group pulled out."
+      },
+      {
+        question: "Is this JavaScript regex or another flavor?",
+        answer: "This tool uses JavaScript's native regular expression engine — the same one that runs in browsers and Node.js — so patterns and flags behave exactly as they would in your own JS code, which may differ slightly from other regex flavors like PCRE or POSIX."
+      }
+    ],
+    contentSections: [
+      {
+        id: "common-patterns",
+        heading: "Common Regex Patterns",
+        paragraphs: [
+          "A few patterns come up often enough to be worth having on hand: an email-like string generally matches ^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$, a simple word made only of letters matches [a-zA-Z]+, and digits-only matches \\d+. These are deliberately simple starting points, not production-grade validators — real-world email and URL formats have edge cases that a short pattern won't fully cover, so treat patterns like these as a first pass to test against representative examples, not a final answer."
+        ]
+      },
+      {
+        id: "understanding-flags",
+        heading: "Understanding Regex Flags",
+        paragraphs: [
+          "Flags change how a pattern matches without changing the pattern itself. 'g' (global) finds every match in the text instead of stopping at the first one — the most common source of \"why isn't this matching everything\" confusion. 'i' (case-insensitive) makes the match ignore letter case. 'm' (multiline) changes how ^ and $ behave, matching the start and end of each line rather than only the start and end of the whole string. Flags can be combined by typing them together, like 'gi'."
+        ]
+      }
+    ],
+    relatedGuideSlugs: ["understanding-regex"]
   },
   {
     id: "color-conv",
@@ -559,7 +692,32 @@ export const tools: Tool[] = [
     ],
     tips: [
       "A clean, readable slug is a small but genuine SEO factor — search engines and users can both read /blog/how-to-format-json more easily than a random ID or an unencoded title with spaces and punctuation."
-    ]
+    ],
+    commonMistakes: [
+      "Accented characters (like é or ñ) are stripped out rather than converted to their unaccented equivalent — 'café' becomes 'caf', not 'cafe'. Review the output if your source text uses accents.",
+      "There's no length limit — a long title produces an equally long slug. Trim it yourself if you need a shorter URL."
+    ],
+    faqs: [
+      {
+        question: "Does this handle special characters and accents?",
+        answer: "Punctuation and special characters are removed. Accented characters are also removed rather than converted to their plain-letter equivalent, so 'café' becomes 'caf' — worth double-checking the output if your text includes accents."
+      },
+      {
+        question: "Is there a length limit for slugs?",
+        answer: "No — this tool doesn't truncate the output, so a long title will produce an equally long slug. If you want a shorter URL, trim the input or the result yourself."
+      }
+    ],
+    contentSections: [
+      {
+        id: "why-slugs-matter",
+        heading: "Why Slugs Matter for SEO",
+        paragraphs: [
+          "A slug is the readable part of a URL that identifies a specific page — the /how-to-format-json in yoursite.com/blog/how-to-format-json. A clean slug isn't a ranking factor on its own, but it supports SEO in more indirect, practical ways: it's more readable in search results and when shared as a link, it gives both users and search engines a clear, descriptive signal of what the page is about, and it's easier to maintain consistently across a site than an unencoded title or an opaque ID.",
+          "The opposite — a URL full of spaces, punctuation, or a random identifier — doesn't directly hurt rankings either, but it's a worse experience for anyone reading the URL before clicking, and it's harder to keep consistent as a site grows."
+        ]
+      }
+    ],
+    relatedToolIds: ["case-converter", "url-codec"]
   },
   {
     id: "text-sorter",
