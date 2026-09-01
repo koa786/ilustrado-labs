@@ -424,7 +424,18 @@ export const tools: Tool[] = [
       "Checking an essay or article against a word-count requirement.",
       "Staying under a character limit for a tweet, meta description, or form field.",
       "Getting a quick sense of a document's length and structure before editing it."
-    ]
+    ],
+    contentSections: [
+      {
+        id: "limits-by-platform",
+        heading: "Word and Character Limits by Platform",
+        paragraphs: [
+          "Different platforms enforce different limits, and it's easy to lose track of which one applies where. A post on X (formerly Twitter) is capped at 280 characters. A meta description in search results is typically truncated somewhere around 155–160 characters, though Google doesn't enforce a hard limit — it just cuts off what it shows. Academic and professional writing requirements are usually word-based rather than character-based, and vary by assignment or publication rather than following a universal standard.",
+          "This tool reports characters both with and without spaces, plus word, sentence, and paragraph counts, so you can check against whichever limit actually applies to what you're writing."
+        ]
+      }
+    ],
+    relatedToolIds: ["case-converter", "text-diff"]
   },
   {
     id: "case-converter",
@@ -442,7 +453,17 @@ export const tools: Tool[] = [
     ],
     tips: [
       "Only camelCase and snake_case are available for programming-style casing — kebab-case (hyphen-separated) isn't currently supported, so if that's what you need, snake_case output can be adjusted afterward by swapping underscores for hyphens."
-    ]
+    ],
+    contentSections: [
+      {
+        id: "casing-conventions",
+        heading: "Casing Conventions in Code",
+        paragraphs: [
+          "Different languages and contexts favor different casing conventions, and mixing them up is a common source of style inconsistency. camelCase (firstName) is the standard for variables and function names in JavaScript, Java, and similar languages. snake_case (first_name) is the convention in Python and Ruby, and is also common for database column names and environment variables regardless of language. Title Case and Sentence case are formatting choices for human-readable text — headings, labels, and prose — rather than code identifiers."
+        ]
+      }
+    ],
+    relatedToolIds: ["slug-gen", "word-counter"]
   },
   {
     id: "password-gen",
@@ -519,7 +540,17 @@ export const tools: Tool[] = [
         question: "What does 'v4' mean?",
         answer: "UUID version 4 means the ID is generated primarily from random numbers, as opposed to other UUID versions that incorporate timestamps or hardware identifiers. It's the most common version for general-purpose unique IDs."
       }
-    ]
+    ],
+    contentSections: [
+      {
+        id: "what-used-for",
+        heading: "What UUIDs Are Used For",
+        paragraphs: [
+          "A UUID's job is to be unique without any central coordination — no database or server needs to hand them out in sequence, since the odds of two independently generated v4 UUIDs colliding are astronomically small. That makes them well suited to a few recurring situations: primary keys in a database where you want to generate the ID client-side or across multiple services without a shared counter, identifiers in a distributed system where different machines are creating records independently, and one-off tokens or reference codes where you just need something unique, not something sequential or predictable."
+        ]
+      }
+    ],
+    relatedToolIds: ["password-gen"]
   },
   {
     id: "timestamp",
@@ -538,6 +569,12 @@ export const tools: Tool[] = [
     ],
     commonMistakes: [
       "This tool works in seconds, not milliseconds — if you're debugging JavaScript's Date.now() or a value from an API that uses milliseconds, divide by 1000 first or the conversion will be off by a factor of 1000."
+    ],
+    faqs: [
+      {
+        question: "Why is my timestamp off by a factor of 1000?",
+        answer: "This usually means a mismatch between seconds and milliseconds. This tool works in seconds (the standard Unix timestamp unit), but JavaScript's Date.now() and many APIs return milliseconds. If your numbers look 1000x too large, divide by 1000 before converting."
+      }
     ]
   },
   {
@@ -556,6 +593,12 @@ export const tools: Tool[] = [
     ],
     tips: [
       "Supports GitHub-flavored Markdown, so tables, strikethrough (~~text~~), and task lists ([ ] / [x]) all render correctly, not just basic headings and lists."
+    ],
+    faqs: [
+      {
+        question: "Does this support GitHub-flavored Markdown?",
+        answer: "Yes — tables, strikethrough, and task lists all render correctly, along with syntax-highlighted fenced code blocks, in addition to standard Markdown formatting."
+      }
     ]
   },
   {
@@ -573,7 +616,17 @@ export const tools: Tool[] = [
     ],
     tips: [
       "For a production site with a real build process, a dedicated build-tool minifier will typically do more (like minifying inline scripts and styles together) — this tool is best suited for quick, one-off cleanup rather than a full production pipeline."
-    ]
+    ],
+    contentSections: [
+      {
+        id: "basic-vs-buildtool",
+        heading: "Basic vs Build-Tool Minification",
+        paragraphs: [
+          "This tool strips HTML comments and collapses whitespace between tags — a straightforward cleanup pass on the markup itself. It doesn't reach into inline <script> or <style> blocks and minify them separately, and it doesn't restructure the document. A build-tool minifier (the kind bundled into a framework's production build) typically handles all of that together as part of a larger optimization pass. For a quick size reduction on a standalone HTML file, this tool is enough; for a production site, that's what your build pipeline is for."
+        ]
+      }
+    ],
+    relatedToolIds: ["css-minify", "js-minify"]
   },
   {
     id: "css-minify",
@@ -587,7 +640,17 @@ export const tools: Tool[] = [
     useCases: [
       "Shrinking a hand-written stylesheet before deploying a small static site.",
       "Cleaning up CSS pasted from a design export or generator that includes excessive whitespace."
-    ]
+    ],
+    contentSections: [
+      {
+        id: "basic-vs-buildtool",
+        heading: "Basic vs Build-Tool Minification",
+        paragraphs: [
+          "This tool strips comments, collapses whitespace, and removes unnecessary spacing around selectors and declarations — the parts of a stylesheet that exist for human readability rather than for the browser. It doesn't go further than that: a build-tool minifier like cssnano can also merge duplicate rules, shorten color values, and drop redundant units, none of which this tool attempts. For cleaning up a hand-written or exported stylesheet before a quick deploy, that's usually enough; a larger codebase with a real build step will get more out of a dedicated minifier."
+        ]
+      }
+    ],
+    relatedToolIds: ["html-minify", "js-minify"]
   },
   {
     id: "js-minify",
@@ -604,7 +667,17 @@ export const tools: Tool[] = [
     ],
     commonMistakes: [
       "This is a lightweight, comment-and-whitespace-only minifier — for a production JavaScript bundle, a dedicated tool like Terser or esbuild will produce significantly smaller output through variable renaming and dead-code elimination."
-    ]
+    ],
+    contentSections: [
+      {
+        id: "basic-vs-buildtool",
+        heading: "Basic vs Build-Tool Minification",
+        paragraphs: [
+          "JavaScript minification has more room to be aggressive than HTML or CSS, because a build-tool minifier like Terser or esbuild can actually understand the code — renaming local variables to shorter names, removing code that's provably unreachable, and restructuring expressions to be more compact, all while preserving behavior. This tool doesn't do any of that; it strips comments and collapses whitespace, which is a real size reduction but a much smaller one than a proper build step achieves. Treat this as a quick cleanup for a standalone script, not a substitute for your bundler's minifier in production."
+        ]
+      }
+    ],
+    relatedToolIds: ["html-minify", "css-minify"]
   },
   {
     id: "regex-tester",
@@ -673,8 +746,23 @@ export const tools: Tool[] = [
     icon: "Palette",
     useCases: [
       "Converting a HEX value from a design tool into RGB or HSL for use in CSS.",
-      "Adjusting a color's lightness or saturation more intuitively using its HSL values, then converting back to HEX.",
+      "Reading a color's HSL breakdown to understand its lightness and saturation at a glance.",
       "Double-checking a color code matches across design and code."
+    ],
+    contentSections: [
+      {
+        id: "hex-vs-rgb-vs-hsl",
+        heading: "When to Use HEX vs RGB vs HSL",
+        paragraphs: [
+          "All three formats describe the same color space, just structured differently. HEX (#3b82f6) is compact and the most common format in design tools and CSS, but the value itself doesn't tell you much at a glance. RGB (rgb(59, 130, 246)) breaks a color into red, green, and blue channels, which is useful when you're compositing or blending colors programmatically. HSL (hsl(217, 91%, 60%)) separates hue from lightness and saturation, which makes it the easiest format to adjust by hand — increasing the lightness value alone gives you a predictable lighter shade of the same color, something that's not straightforward to do by eye in HEX or RGB."
+        ]
+      }
+    ],
+    faqs: [
+      {
+        question: "Can I input RGB or HSL directly instead of HEX?",
+        answer: "No — this tool takes a HEX value (typed or picked) as input and computes the equivalent RGB and HSL values from it. RGB and HSL are shown as output, not as separate input fields."
+      }
     ]
   },
   {
@@ -732,7 +820,8 @@ export const tools: Tool[] = [
       "Alphabetizing a list of names, tags, or items pasted from another source.",
       "Reversing a chronological log so the most recent entries appear first.",
       "Preparing a list for easier scanning or comparison by putting it in a consistent order."
-    ]
+    ],
+    relatedToolIds: ["deduplicator"]
   },
   {
     id: "deduplicator",
@@ -747,7 +836,14 @@ export const tools: Tool[] = [
       "Cleaning up a mailing list or contact list that has repeated entries.",
       "Deduplicating log lines to see only the unique events.",
       "Merging two lists and removing the overlap."
-    ]
+    ],
+    faqs: [
+      {
+        question: "Is the duplicate check case-sensitive?",
+        answer: "Yes — 'Example' and 'example' are treated as different lines and both kept. If you need case-insensitive deduplication, convert the text to a single case first (for example with the Case Converter) before running it through here."
+      }
+    ],
+    relatedToolIds: ["text-sorter", "text-diff"]
   },
   {
     id: "lorem-ipsum",
