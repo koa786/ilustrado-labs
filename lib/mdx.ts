@@ -13,6 +13,7 @@ export interface BlogPostFrontmatter {
   category: string;
   tags: string[];
   image: string;
+  imageAlt?: string;
   featured?: boolean;
   slug: string;
 }
@@ -80,6 +81,7 @@ export function getAllPosts(): BlogPost[] {
         category: data.category || "General",
         tags: Array.isArray(data.tags) ? data.tags : [],
         image: data.image || `https://picsum.photos/seed/${fallbackSlug}/1200/675`,
+        imageAlt: data.imageAlt || undefined,
         featured: Boolean(data.featured),
         slug: data.slug || fallbackSlug,
       };

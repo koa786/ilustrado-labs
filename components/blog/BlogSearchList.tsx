@@ -105,7 +105,7 @@ export function BlogSearchList({ initialPosts, categories }: BlogSearchListProps
                   <div className="aspect-video bg-muted/20 relative overflow-hidden">
                     <Image
                       src={post.frontmatter.image}
-                      alt={post.frontmatter.title}
+                      alt={post.frontmatter.imageAlt || post.frontmatter.title}
                       fill
                       className="object-cover group-hover:scale-105 transition-transform duration-500"
                       referrerPolicy="no-referrer"
@@ -172,7 +172,7 @@ export function BlogSearchList({ initialPosts, categories }: BlogSearchListProps
                   <div className="aspect-video bg-muted/20 rounded-t-xl overflow-hidden relative">
                     <Image
                       src={post.frontmatter.image}
-                      alt={post.frontmatter.title}
+                      alt={post.frontmatter.imageAlt || post.frontmatter.title}
                       fill
                       className="object-cover group-hover:scale-105 transition-transform duration-500"
                       referrerPolicy="no-referrer"

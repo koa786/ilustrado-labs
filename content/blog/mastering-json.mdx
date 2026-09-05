@@ -29,6 +29,8 @@ const prettyJson = JSON.stringify(data, null, 2);
 console.log(prettyJson);
 ```
 
+If you just need to pretty-print a JSON string without writing any code, our [JSON Formatter](/tools/json-formatter) does this instantly in your browser.
+
 ### 2. Custom Replacer Functions
 
 You can pass a replacer function as the 2nd argument to filter keys or sanitize sensitive fields like passwords:
@@ -48,4 +50,4 @@ For large JSON objects, browser-native JSON processing is up to 10x faster than 
 
 ## Conclusion
 
-Mastering native JSON features allows you to inspect and manipulate data effortlessly without adding bloat to your projects.
+Mastering native JSON features allows you to inspect and manipulate data effortlessly without adding bloat to your projects. Before shipping any hand-edited or generated JSON, it's worth running it through our [JSON Validator](/tools/json-validator) to catch syntax errors before they reach production.
