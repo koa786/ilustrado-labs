@@ -133,7 +133,7 @@ export default async function BlogPostPage({
             <div className="aspect-video bg-muted/20 rounded-2xl overflow-hidden relative border border-border/80 shadow-md">
               <Image
                 src={post.frontmatter.image}
-                alt={post.frontmatter.title}
+                alt={post.frontmatter.imageAlt || post.frontmatter.title}
                 fill
                 className="object-cover"
                 priority
@@ -225,7 +225,7 @@ export default async function BlogPostPage({
                       <div className="aspect-video bg-muted/20 rounded-xl overflow-hidden relative mb-4">
                         <Image
                           src={relPost.frontmatter.image}
-                          alt={relPost.frontmatter.title}
+                          alt={relPost.frontmatter.imageAlt || relPost.frontmatter.title}
                           fill
                           className="object-cover group-hover:scale-105 transition-transform duration-300"
                           referrerPolicy="no-referrer"

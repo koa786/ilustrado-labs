@@ -156,6 +156,10 @@ export const tools: Tool[] = [
       {
         question: "Can it compare code files, not just plain text?",
         answer: "Yes, it works on any plain text, including code — though it compares text content, not code structure, so a functionally identical change written differently will still show as a difference."
+      },
+      {
+        question: "Can I use this to check if two texts are identical?",
+        answer: "Yes — paste both texts and the tool will tell you immediately if they're identical. If they're not, it shows exactly which lines were added or removed, rather than just a yes/no answer."
       }
     ],
     relatedToolIds: ["word-counter", "deduplicator"]
@@ -310,7 +314,8 @@ export const tools: Tool[] = [
         ]
       }
     ],
-    relatedToolIds: ["json-formatter"]
+    relatedToolIds: ["json-formatter"],
+    relatedGuideSlugs: ["json-validator-guide"]
   },
   {
     id: "base64",
